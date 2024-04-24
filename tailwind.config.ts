@@ -1,10 +1,13 @@
-import type { Config } from 'tailwindcss';
-import plugin from 'tailwindcss/plugin';
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    content: [
+        './app/**/*.{js,ts,jsx,tsx,mdx}',
+        './pages/**/*.{js,ts,jsx,tsx,mdx}',
+        './components/**/*.{js,ts,jsx,tsx,mdx}',
 
-const config: Config = {
-    important: true,
-    content: ['./src/pages/**/*.{js,ts,jsx,tsx,mdx}', './src/components/**/*.{js,ts,jsx,tsx,mdx}', './src/app/**/*.{js,ts,jsx,tsx,mdx}'],
-    darkMode: 'class',
+        // Or if using `src` directory:
+        './src/**/*.{js,ts,jsx,tsx,mdx}'
+    ],
     theme: {
         extend: {
             spacing: {
@@ -50,7 +53,6 @@ const config: Config = {
                 lgl: '1025px',
                 xl: '1280px'
             },
-
             backgroundImage: {
                 'gradient-white': 'linear-gradient(270deg,#f2f2f2 0%,rgba(242,242,242,0) 100%)',
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -72,8 +74,6 @@ const config: Config = {
                 bgMainLeaderBoard: 'linear-gradient(142deg,rgba(63, 161, 251, 1) 0%,rgba(252, 70, 168, 1) 100%)',
                 bgUserItemLeaderBoardOne: 'linear-gradient(150deg,rgba(254,143,85,.42) 24%,rgba(185,53,53,.42) 91%);',
                 bgUserItemLeaderBoardTwo: 'linear-gradient(-150deg,rgba(85,125,254,.549) 24%,rgba(101,53,185,.541) 91%);',
-                // bgResultTitle:
-                //     'linear-gradient(45deg,#ff0000, #ff7300,#fffb00,#48ff00,#00ffd5,#002bff,#7a00ff,#ff00c8,#ff0000);',
                 bgButtonCheckResult: 'linear-gradient(109.6deg, rgb(255, 230, 109) 11.2%, rgb(87, 232, 107) 100.2%);',
                 bgResultTitle: 'linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB)'
             },
@@ -145,112 +145,7 @@ const config: Config = {
                 bgAnswerTriangle: '#F03440',
                 bgAnswerDiamond: '#2E64D1',
                 bgAnswerCircle: '#EFA920',
-                bgAnswerSquare: '#00D164',
-
-                navy: {
-                    50: '#d0dcfb',
-                    100: '#aac0fe',
-                    200: '#a3b9f8',
-                    300: '#728fea',
-                    400: '#3652ba',
-                    500: '#1b3bbb',
-                    600: '#24388a',
-                    700: '#1B254B',
-                    800: '#111c44',
-                    900: '#0b1437'
-                },
-                background: {
-                    100: 'rgb(244 247 254)',
-                    900: '#070f2e'
-                },
-                brand: {
-                    50: '#E9E3FF',
-                    100: '#C0B8FE',
-                    200: '#A195FD',
-                    300: '#8171FC',
-                    400: '#7551FF',
-                    500: '#422AFB',
-                    600: '#3311DB',
-                    700: '#2111A5',
-                    800: '#190793',
-                    900: '#11047A'
-                },
-                horizonGreen: {
-                    50: '#E1FFF4',
-                    100: '#BDFFE7',
-                    200: '#7BFECE',
-                    300: '#39FEB6',
-                    400: '#01F99E',
-                    500: '#01B574',
-                    600: '#01935D',
-                    700: '#016B44',
-                    800: '#00472D',
-                    900: '#002417'
-                },
-                horizonOrange: {
-                    50: '#FFF7EB',
-                    100: '#FFF1DB',
-                    200: '#FFE2B8',
-                    300: '#FFD28F',
-                    400: '#FFC46B',
-                    500: '#FFB547',
-                    600: '#FF9B05',
-                    700: '#C27400',
-                    800: '#855000',
-                    900: '#422800',
-                    950: '#1F1200'
-                },
-                horizonRed: {
-                    50: '#FCE8E8',
-                    100: '#FAD1D1',
-                    200: '#F4A4A4',
-                    300: '#EF7676',
-                    400: '#EA4848',
-                    500: '#E31A1A',
-                    600: '#B71515',
-                    700: '#891010',
-                    800: '#5B0B0B',
-                    900: '#2E0505',
-                    950: '#170303'
-                },
-                horizonBlue: {
-                    50: '#EBEFFF',
-                    100: '#D6DFFF',
-                    200: '#ADBFFF',
-                    300: '#8AA3FF',
-                    400: '#6183FF',
-                    500: '#3965FF',
-                    600: '#0036FA',
-                    700: '#0029BD',
-                    800: '#001B7A',
-                    900: '#000D3D',
-                    950: '#00071F'
-                },
-                horizonTeal: {
-                    50: '#EBFAF8',
-                    100: '#D7F4F2',
-                    200: '#AAE9E4',
-                    300: '#82DED6',
-                    400: '#59D4C9',
-                    500: '#33C3B7',
-                    600: '#299E94',
-                    700: '#1F756E',
-                    800: '#144D48',
-                    900: '#0B2826',
-                    950: '#051413'
-                },
-                horizonPurple: {
-                    50: '#EFEBFF',
-                    100: '#E9E3FF',
-                    200: '#422AFB',
-                    300: '#422AFB',
-                    400: '#7551FF',
-                    500: '#422AFB',
-                    600: '#3311DB',
-                    700: '#02044A',
-                    800: '#190793',
-                    900: '#11047A'
-                }
+                bgAnswerSquare: '#00D164'
             },
 
             boxShadow: {
@@ -265,19 +160,10 @@ const config: Config = {
 
                 boxButtonStartGame: 'rgba(45, 35, 66, .4) 0 2px 4px,rgba(244, 42, 26, 0.1), 0 7px 13px -3px,rgba(244, 42, 26, 0.22) 0 -3px 0 inset',
                 boxButtonStartGameHover: 'rgba(45, 35, 66, .4) 0 4px 8px, rgba(244, 42, 26, 0.1)0 7px 13px -3px, #D80032 0 -3px 0 inset',
-                boxButtonCheckResult: 'rgba(245, 247, 16, 0.8) 0 2px 4px',
+                boxResultTitle: ' rgba(151, 65, 252, 0.2) 0 15px 30px -5px',
                 boxUser: '#422800 3px 5px 0 0',
-                boxTitleLeaderBoard:
-                    '#0c131f 1px 1px 0px 0px ,#0c131f 2px 2px 0px 0px,#0c131f 3px 3px 0px 0px,#0c131f 4px 4px 0px 0px, #0c131f 5px 5px 0px 0px',
-                boxResultTitle: ' rgba(151, 65, 252, 0.2) 0 15px 30px -5px;'
+                boxTitleLeaderBoard: '#0c131f 1px 1px 0px 0px ,#0c131f 2px 2px 0px 0px,#0c131f 3px 3px 0px 0px,#0c131f 4px 4px 0px 0px, #0c131f 5px 5px 0px 0px'
             },
-
-            // dropShadow: {
-            //     textLeaderBoard:
-            //         '3px 1px 1px #4af7ff, 2px 2px 1px #165bfb, 4px 2px 1px #4af7ff, 3px 3px 1px #165bfb, 5px 3px 1px #4af7ff, 4px 4px 1px #165bfb, 6px 4px 1px #4af7ff, 5px 5px 1px #165bfb, 7px 5px 1px #4af7ff,6px 6px 1px #165bfb, 8px 6px 1px #4af7ff, 7px 7px 1px #165bfb, 9px 7px 1px #4af7ff',
-            //     shadowTextResult:
-            //         '5px 5px 0px #FFB650, 10px 10px 0px #FFD662, 15px 15px 0px  #FF80BF, 20px 20px 0px #EF5097,25px 25px 0px #6868AC, 30px 30px 0px #90B1E0;'
-            // },
 
             gridTemplateRows: {
                 auto: 'auto'
@@ -331,19 +217,5 @@ const config: Config = {
             }
         }
     },
-    plugins: [
-        require('tailwind-scrollbar')({ nocompatible: true }),
-        plugin(function ({ matchUtilities, theme }: any) {
-            matchUtilities(
-                {
-                    'text-shadow': (value: any) => ({
-                        textShadow: value
-                    })
-                },
-                { values: theme('textShadow') }
-            );
-        }),
-        plugin(function ({ addComponents, theme }) {})
-    ]
+    plugins: [require('tailwind-scrollbar')({ nocompatible: true })]
 };
-export default config;

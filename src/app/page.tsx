@@ -22,7 +22,7 @@ export default function Landing() {
     const [language, setLanguage] = useLocalStorage('language');
 
     return (
-        <main className='bg-bgGray'>
+        <main className='overflow-hidden bg-bgGray'>
             <Navbar language={language} setLanguage={setLanguage} />
             <Intro language={language} />
             <Manage language={language} />

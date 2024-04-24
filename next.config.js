@@ -3,16 +3,13 @@
 
 const nextConfig = {
     reactStrictMode: false,
-    experimental: {
-        appDir: true
-    },
     env: {
-        GOOGLE_CLIENT_ID: '343022034542-9vj6tpcpns5t47bqkm420hrcqc1buvce.apps.googleusercontent.com',
-        GOOGLE_CLIENT_SECRET: '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',
-        FACEBOOK_CLIENT_ID: '715561680446168',
-        FACEBOOK_CLIENT_SECRET: 'b14fabedd77bdedbc8102dad0c350c99',
-        NEXTAUTH_SECRET: 'af017d04a8083251abdebb81b1fbb498',
-        NEXTAUTH_URL: 'http://localhost:3000/'
+        GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+        GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+        FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
+        FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
+        NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+        NEXTAUTH_URL: process.env.NEXTAUTH_URL
     },
     images: {
         domains: [
@@ -28,7 +25,7 @@ const nextConfig = {
         ]
     },
 
-    webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    webpack: (config) => {
         config.externals.push({
             'utf-8-validate': 'commonjs utf-8-validate',
             bufferutil: 'commonjs bufferutil',

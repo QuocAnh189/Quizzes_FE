@@ -26,13 +26,13 @@ export default function ExitEditDialog({ open, setIsOpenExitEditDialog }: IProps
 
     const router = useRouter();
 
-    useEffect(() => {
-        if (isSuccess) {
-            router.push(paths.library);
-            data && dispatch(saveQuizFromCreator(data));
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSuccess]);
+    // useEffect(() => {
+    //     if (isSuccess) {
+    //         router.push(paths.library);
+    //         data && dispatch(saveQuizFromCreator(data));
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [isSuccess]);
 
     // useEffect(() => {
     //     console.log(error);
@@ -43,21 +43,21 @@ export default function ExitEditDialog({ open, setIsOpenExitEditDialog }: IProps
     };
 
     const handleExit = () => {
-        if (!isUpdate) {
-            dispatch(addDraftQuiz(quiz));
-            router.push(paths.library);
-            return;
-        } else {
-            dispatch(saveQuiz());
-            updateQuiz({
-                quizId: quiz._id,
-                updateQuiz: quiz
-            })
-                .unwrap()
-                .then((res) => {
-                    dispatch(saveQuizFromCreator(res));
-                });
-        }
+        // if (!isUpdate) {
+        //     dispatch(addDraftQuiz(quiz));
+        //     router.push(paths.library);
+        //     return;
+        // } else {
+        //     dispatch(saveQuiz());
+        //     updateQuiz({
+        //         quizId: quiz._id,
+        //         updateQuiz: quiz
+        //     })
+        //         .unwrap()
+        //         .then((res) => {
+        //             dispatch(saveQuizFromCreator(res));
+        //         });
+        // }
     };
 
     return (

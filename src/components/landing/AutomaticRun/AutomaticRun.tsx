@@ -1,14 +1,8 @@
-//images
+//next
 import Image from 'next/image';
-import {
-    bigHeartImg,
-    gradientPurpleImg,
-    likeHandImg,
-    quiteHeartImg,
-    smallHeartImg,
-    imageRunImg,
-    raiseHandImg
-} from '../../../../public/assets/images/landing';
+
+//assets
+import { bigHeartImg, gradientPurpleImg, likeHandImg, quiteHeartImg, smallHeartImg, imageRunImg, raiseHandImg } from '../../../../public/assets/images/landing';
 
 //animation
 import Marquee from 'react-fast-marquee';
@@ -21,285 +15,155 @@ const AutomaticRun = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.1, delay: 1.2 }}
             id='overview'
-            className='w-screen relative pt-6 pb-0 overflow-hidden bg-white'
+            className='relative w-screen overflow-hidden bg-white pb-0 pt-6'
         >
-            <div className='w-full max-w-[1440px] bg-transparent rounded-[4px] mx-auto px-[3.13rem]'>
+            <div className='mx-auto w-full max-w-[1440px] rounded-[4px] bg-transparent px-[3.13rem]'>
                 <div className='relative flex flex-col items-center text-center'>
-                    <Image
-                        src={gradientPurpleImg}
-                        alt=''
-                        className='w-[70em] h-auto absolute inline-block max-w-full z-[1]'
-                    />
+                    <Image src={gradientPurpleImg} alt='' className='absolute z-[1] inline-block h-auto w-[70em] max-w-full' />
                     <div className='flex flex-col gap-y-[2.75em] text-center'>
                         <div className='flex text-center'>
                             <Marquee>
-                                <div className='flex pr-[2.75em] flex-none gap-x-[2.75em]'>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                <div className='flex flex-none gap-x-[2.75em] pr-[2.75em]'>
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
                                 </div>
                             </Marquee>
                             <Marquee>
-                                <div className='flex pr-[2.75em] flex-none gap-x-[2.75em]'>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                <div className='flex flex-none gap-x-[2.75em] pr-[2.75em]'>
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
                                 </div>
                             </Marquee>
                             <Marquee>
-                                <div className='flex pr-[2.75em] flex-none gap-x-[2.75em]'>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                <div className='flex flex-none gap-x-[2.75em] pr-[2.75em]'>
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='w-full h-full max-w-full relative inline-block object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full object-cover' />
                                     </div>
                                 </div>
                             </Marquee>
                         </div>
                         <div className='flex text-center'>
                             <Marquee direction='right'>
-                                <div className='flex pr-[2.75em] flex-none gap-x-[2.75em]'>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                <div className='flex flex-none gap-x-[2.75em] pr-[2.75em]'>
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
                                 </div>
                             </Marquee>
                             <Marquee direction='right'>
-                                <div className='flex pr-[2.75em] flex-none gap-x-[2.75em]'>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                <div className='flex flex-none gap-x-[2.75em] pr-[2.75em]'>
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
                                 </div>
                             </Marquee>
                             <Marquee direction='right'>
-                                <div className='flex pr-[2.75em] flex-none gap-x-[2.75em]'>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                <div className='flex flex-none gap-x-[2.75em] pr-[2.75em]'>
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
-                                    <div className='w-[35.38em] rounded-xl flex flex-none overflow-hidden'>
-                                        <Image
-                                            src={imageRunImg}
-                                            alt=''
-                                            className='relative w-full h-full max-w-full inline-block  object-cover'
-                                        />
+                                    <div className='flex w-[35.38em] flex-none overflow-hidden rounded-xl'>
+                                        <Image src={imageRunImg} alt='' className='relative inline-block h-full w-full max-w-full  object-cover' />
                                     </div>
                                 </div>
                             </Marquee>
                         </div>
                     </div>
-                    <div className='z-[2] text-center absolute top-[7.19em] flex flex-col items-center gap-10'>
-                        <div className='text-center block leading-[1] font-bold text-[4em] mdl:text-[6em] xl:text-[10em] tracking-[-0.025em]'>
+                    <div className='absolute top-[7.19em] z-[2] flex flex-col items-center gap-10 text-center'>
+                        <div className='block text-center text-[4em] font-bold leading-[1] tracking-[-0.025em] mdl:text-[6em] xl:text-[10em]'>
                             Select my
                             <br />
                         </div>
-                        <div className='block mt-[-2.1em]'>
-                            <div className='block text-center leading-[1] font-bold text-[4em] mdl:text-[6em] xl:text-[10em] tracking-[-0.025em]'>
-                                Quizzes
-                            </div>
+                        <div className='mt-[-2.1em] block'>
+                            <div className='block text-center text-[4em] font-bold leading-[1] tracking-[-0.025em] mdl:text-[6em] xl:text-[10em]'>Quizzes</div>
                         </div>
                     </div>
-                    <Image
-                        src={raiseHandImg}
-                        alt=''
-                        className='w-[30.75em] h-[30.75em] max-w-full inline-block absolute bottom-[-4em] object-contain z-[4]'
-                    />
+                    <Image src={raiseHandImg} alt='' className='absolute bottom-[-4em] z-[4] inline-block h-[30.75em] w-[30.75em] max-w-full object-contain' />
                     <Image
                         src={bigHeartImg}
                         alt=''
-                        className='w-[10.25em] h-auto inline-block max-w-full absolute z-[3] bottom-[0] translate-x-[19%] translate-y-[-28em]'
+                        className='absolute bottom-[0] z-[3] inline-block h-auto w-[10.25em] max-w-full translate-x-[19%] translate-y-[-28em]'
                     />
                     <Image
                         src={quiteHeartImg}
                         alt=''
-                        className='z-[1] bottom-[0] h-auto inline-bock max-w-full align-middle absolute w-[4.81em] translate-x-[-4em] translate-y-[-21em]'
+                        className='inline-bock absolute bottom-[0] z-[1] h-auto w-[4.81em] max-w-full translate-x-[-4em] translate-y-[-21em] align-middle'
                     />
                     <Image
                         src={smallHeartImg}
                         alt=''
-                        className='z-[1] bottom-[0] h-auto max-w-full inline-bock align-middle absolute w-[2.75em] translate-x-[-3.4em] translate-y-[-34em]'
+                        className='inline-bock absolute bottom-[0] z-[1] h-auto w-[2.75em] max-w-full translate-x-[-3.4em] translate-y-[-34em] align-middle'
                     />
                 </div>
             </div>

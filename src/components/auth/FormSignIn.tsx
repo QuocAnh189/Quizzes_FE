@@ -1,15 +1,16 @@
 'use client';
 
-import { useState, useEffect, useMemo, useRef } from 'react';
+//hook
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { signIn } from 'next-auth/react';
 
-//images
+//assets
 import Image from 'next/image';
-import { logoImg, googleImg, facebookImg, loadingImg } from '../../../public/assets/images/auth';
+import { logoImg, googleImg, facebookImg } from '../../../public/assets/images/auth';
 
 //routes
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 //icons
@@ -28,13 +29,13 @@ import { EmailFormat } from 'src/app/validates';
 //Redux
 import { useAppDispatch } from 'src/app/redux/hooks';
 import { logIn } from 'src/app/redux/slices/authSlice';
-import { useLoginUserMutation, useLoginSocialMutation } from 'src/app/redux/services/authApi';
+import { useSignInMutation, useSignInSocialMutation } from 'src/app/redux/services/authApi';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 
 //type
 import { LoginType, ErrorLoginType } from 'src/app/variable';
 
-const InitLogin = { mail: '', password: '' } as LoginType;
+const InitLogin = { email: '', password: '' } as LoginType;
 const InitErrorLogin = {
     userName: false,
     password: false,
@@ -43,28 +44,14 @@ const InitErrorLogin = {
 
 //auth
 import { useSession } from 'next-auth/react';
-import LiquidLoading from '../LiquidLoading';
 import { VscLoading } from 'react-icons/vsc';
 
 const FormSignIn = () => {
-    const mounted = useRef<boolean>(true);
-    const { data: session } = useSession();
-
-    const [language, setLanguage] = useState('');
-    useEffect(() => {
-        mounted.current = true;
-        const value = JSON.parse(localStorage.getItem('language')!);
-        setLanguage(value);
-        return () => {
-            mounted.current = false;
-        };
-    }, []);
-
     const router = useRouter();
     const dispatch = useAppDispatch();
 
-    const [LoginSocial] = useLoginSocialMutation();
-    const [Login, { isLoading }] = useLoginUserMutation();
+    const [LoginSocial] = useSignInSocialMutation();
+    const [Login, { isLoading }] = useSignInMutation();
 
     const [loading, setLoading] = useState<boolean>(false);
     const [formData, setFormData] = useState<LoginType>(InitLogin);
@@ -73,30 +60,12 @@ const FormSignIn = () => {
     const [showPassWord, setShowPassWord] = useState<boolean>(false);
 
     useEffect(() => {
-        if (session) {
-            const { user } = session;
-            setLoading(true);
-            LoginSocial({
-                email: user?.email ?? '',
-                image: user?.image ?? '',
-                name: user?.name ?? ''
-            })
-                .unwrap()
-                .then((res) => {
-                    dispatch(logIn(res));
-                    router.push('/home');
-                })
-                .catch((error) => console.log(error));
-        }
-    }, [session, dispatch, router, LoginSocial]);
-
-    useEffect(() => {
-        if (!formData.mail || !formData.password || !EmailFormat(formData.mail)) {
+        if (!formData.email || !formData.password || !EmailFormat(formData.email)) {
             setCanSubmit(false);
         } else {
             setCanSubmit(true);
         }
-    }, [formData.mail, formData.password]);
+    }, [formData.email, formData.password]);
 
     const handleChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -111,39 +80,39 @@ const FormSignIn = () => {
 
     const handleLogin = async () => {
         setFormError(InitErrorLogin);
-        await Login(formData)
-            .unwrap()
-            .then((result) => {
-                setLoading(true);
+        try {
+            const result = await Login(formData).unwrap();
+            if (result) {
                 dispatch(logIn(result));
                 router.push('/home');
-            })
-            .catch((error: FetchBaseQueryError) => {
-                const { message }: any = error?.data;
-                switch (message) {
-                    case 'Account not exist':
-                        setFormError(() => {
-                            var newError = { ...InitErrorLogin, userName: true };
-                            return newError;
-                        });
-                        break;
-                    case 'Wrong password':
-                        setFormError(() => {
-                            var newError = { ...InitErrorLogin, password: true };
-                            return newError;
-                        });
-                        break;
+            }
+        } catch (error: any) {
+            const { message }: any = error?.data;
 
-                    case 'Email is auth account':
-                        setFormError(() => {
-                            var newError = { ...InitErrorLogin, authAccount: true };
-                            return newError;
-                        });
-                        break;
-                    default:
-                        break;
-                }
-            });
+            switch (message) {
+                case 'Account not exist':
+                    setFormError(() => {
+                        var newError = { ...InitErrorLogin, userName: true };
+                        return newError;
+                    });
+                    break;
+                case 'Wrong password':
+                    setFormError(() => {
+                        var newError = { ...InitErrorLogin, password: true };
+                        return newError;
+                    });
+                    break;
+
+                case 'Email is auth account':
+                    setFormError(() => {
+                        var newError = { ...InitErrorLogin, authAccount: true };
+                        return newError;
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
     };
 
     return (
@@ -174,12 +143,12 @@ const FormSignIn = () => {
                             >
                                 <input
                                     type='email'
-                                    name='mail'
+                                    name='email'
                                     className={clsx(
                                         `block min-h-[auto] w-full rounded-2xl border-[2px] px-3 py-[0.8rem] font-semibold placeholder-gray-400 outline-none placeholder:italic focus:border-[2px] focus:border-bgBlue`,
-                                        EmailFormat(formData.mail) === false && 'border-textError focus:border-textError'
+                                        EmailFormat(formData.email) === false && 'border-textError focus:border-textError'
                                     )}
-                                    placeholder={language === 'en' ? 'Enter email' : 'Nhập email'}
+                                    placeholder='Enter email'
                                     onChange={handleChangeForm}
                                     onKeyDown={handleClickEnterForm}
                                 />
@@ -195,7 +164,7 @@ const FormSignIn = () => {
                                     type={showPassWord ? 'text' : 'password'}
                                     name='password'
                                     className='min-h-[auto] w-full rounded-2xl border-[2px] bg-transparent px-3 py-[0.8rem] font-semibold placeholder-gray-400 outline-none placeholder:italic focus:border-[2px] focus:border-bgBlue'
-                                    placeholder={language === 'en' ? 'Password' : 'Mật khẩu'}
+                                    placeholder='Password'
                                     onChange={handleChangeForm}
                                     onKeyDown={handleClickEnterForm}
                                 />
@@ -209,11 +178,11 @@ const FormSignIn = () => {
                                 </button>
                             </motion.div>
 
-                            {formError.userName && <ErrorNotify message={language === 'en' ? 'Email does not exists!' : 'Email không tồn tại!'} />}
+                            {formError.userName && <ErrorNotify message='Email does not exists!' />}
 
-                            {formError.password && <ErrorNotify message={language === 'en' ? 'Your password is wrong!' : 'Mật khẩu không đúng!'} />}
+                            {formError.password && <ErrorNotify message='Your password is wrong!' />}
 
-                            {formError.authAccount && <ErrorNotify message={language === 'en' ? 'Email is auth account' : 'Tài khoảng đã được sử dụng'} />}
+                            {formError.authAccount && <ErrorNotify message='Email is auth account' />}
 
                             <motion.button
                                 initial={{ x: -20, opacity: 0 }}
@@ -224,17 +193,15 @@ const FormSignIn = () => {
                                     canSubmit ? 'cursor-pointer bg-bgBlue' : 'cursor-default bg-textGray'
                                 )}
                                 onClick={handleLogin}
-                                disabled={!canSubmit}
+                                disabled={isLoading}
                             >
                                 {isLoading || loading ? (
                                     <>
                                         <VscLoading className='mr-3 h-5 w-5 animate-spin text-white' />
-                                        {language === 'en' ? 'Processing...' : 'Đang tải...'}
+                                        Processing...
                                     </>
-                                ) : language === 'en' ? (
-                                    'Sign In'
                                 ) : (
-                                    'Đăng nhập'
+                                    'Sign In'
                                 )}
                             </motion.button>
                         </div>
@@ -246,7 +213,7 @@ const FormSignIn = () => {
                                 onClick={() => router.push('/signUp')}
                                 className='block w-full py-4 text-sm font-semibold hover:rounded-[18px] hover:bg-bgGrayLight hover:text-[15px]'
                             >
-                                {language === 'en' ? 'No account? Sign up for FREE' : 'Chưa có tài khoản? Đăng ký miễn phí'}
+                                No account? Sign up for FREE
                             </motion.button>
                             <motion.button
                                 initial={{ x: -20, opacity: 0 }}
@@ -254,7 +221,7 @@ const FormSignIn = () => {
                                 transition={{ duration: 0.4, delay: 0.7 }}
                                 className='lue block  w-full py-4 text-sm font-semibold hover:rounded-[18px] hover:bg-bgGrayLight hover:text-[15px]'
                             >
-                                {language === 'en' ? 'I forgot my password' : 'Quên mật khẩu'}
+                                I forgot my password
                             </motion.button>
 
                             <motion.button
@@ -266,7 +233,7 @@ const FormSignIn = () => {
                                 onClick={() => signIn('google')}
                             >
                                 <Image src={googleImg} alt='' className='block h-[20px] w-[20px]' />
-                                <span className='inline-block'>{language === 'en' ? 'Sign in with Google' : 'Đăng nhập bằng Google'}</span>
+                                <span className='inline-block'>Sign in with Google</span>
                                 <span />
                             </motion.button>
 
@@ -278,7 +245,7 @@ const FormSignIn = () => {
                                 onClick={() => signIn('facebook')}
                             >
                                 <Image src={facebookImg} alt='' className='block h-[20px] w-[20px]' />
-                                <span className='inline-block'>{language === 'en' ? 'Sign in with Facebook' : 'Đăng nhập bằng Facebook'}</span>
+                                <span className='inline-block'>Sign in with Facebook</span>
                                 <span />
                             </motion.button>
 
@@ -289,7 +256,7 @@ const FormSignIn = () => {
                                     transition={{ duration: 0.4, delay: 0.9 }}
                                     className='mb-3 block w-full py-4 text-sm font-bold hover:rounded-[18px] hover:bg-bgGrayLight hover:text-[15px]'
                                 >
-                                    {language === 'en' ? 'Back' : 'Trở về'}
+                                    Back
                                 </motion.button>
                             </Link>
                         </div>
@@ -297,10 +264,7 @@ const FormSignIn = () => {
                 </div>
                 <div className='absolute bottom-0 left-[50%] min-h-[70px] w-full translate-x-[-50%] text-center'>
                     <p className='font-semibold text-textGray'>
-                        ©2023 quizzes GmbH -
-                        <span className='font-bold text-textBlack'>
-                            {language === 'en' ? ' Imprint & Privacy Policy' : ' Điều khoản & và chính sách bảo mật'}
-                        </span>
+                        ©2023 quizzes GmbH -<span className='font-bold text-textBlack'>Imprint & Privacy Policy</span>
                     </p>
                 </div>
             </div>

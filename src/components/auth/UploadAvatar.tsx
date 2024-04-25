@@ -1,11 +1,6 @@
 // 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
-import clsx from 'clsx';
-
-//images
-import Image from 'next/image';
-import { loadingImg } from '../../../public/assets/images/auth';
+import React, { useState } from 'react';
 
 //routes
 import { useRouter } from 'next/navigation';
@@ -14,16 +9,23 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
 //Redux
+import { logIn } from 'src/app/redux/slices/authSlice';
 import { useAppDispatch } from 'src/app/redux/hooks';
-import { useRegisterUserMutation } from 'src/app/redux/services/authApi';
+import { useSignUpMutation } from 'src/app/redux/services/authApi';
+import { useDeleteImageMutation } from 'src/app/redux/services/providerApi';
 
 //type
 import { SignUpType } from 'src/app/variable';
 
 //icons
-import { AiOutlineCheck } from 'react-icons/ai';
-import { logIn } from 'src/app/redux/slices/authSlice';
-import { MdCloudUpload } from 'react-icons/md';
+import { FaTrashCan } from 'react-icons/fa6';
+import { MdEdit } from 'react-icons/md';
+
+//cloudinary
+import { CldUploadWidget } from 'next-cloudinary';
+
+//component
+import { CircularProgress } from '@chakra-ui/react';
 
 interface FormTypeProps {
     setShowFormWorkSpace: (state: boolean) => void;
@@ -35,57 +37,38 @@ interface FormTypeProps {
 }
 
 const UploadAvatar = (props: FormTypeProps) => {
-    const mounted = useRef<boolean>(true);
     const route = useRouter();
     const dispatch = useAppDispatch();
 
-    const [language, setLanguage] = useState('');
-    useEffect(() => {
-        mounted.current = true;
-        const value = JSON.parse(localStorage.getItem('language')!);
-        setLanguage(value);
-        return () => {
-            mounted.current = false;
-        };
-    }, []);
+    const [newAvatar, setNewAvatar] = useState<string>();
 
-    const [file, setFile] = useState<string>();
     const [skip, setSkip] = useState<boolean>(false);
-    const [loadingUpload, setLoadingUpload] = useState<boolean>(false);
 
-    const [Register, { data, isSuccess, isLoading }] = useRegisterUserMutation();
+    const [Register, { isLoading }] = useSignUpMutation();
+    const [DeleteAvatar] = useDeleteImageMutation();
 
-    const handleSignUp = () => {
-        Register(props.formData);
+    const handleSignUp = async () => {
+        try {
+            const result = await Register(props.formData).unwrap();
+            if (result) {
+                dispatch(logIn(result));
+                route.push('/home');
+            }
+        } catch (e) {
+            console.log(e);
+        }
     };
 
-    useEffect(() => {
-        if (isSuccess && data) {
-            props.setLoading();
-            dispatch(logIn(data));
-            route.push('/home');
+    const handleDeleteImage = async () => {
+        if (newAvatar) {
+            const public_id = newAvatar.substring(62, newAvatar.length - 4);
+            await DeleteAvatar(public_id)
+                .unwrap()
+                .then((res) => {
+                    setNewAvatar('');
+                })
+                .catch((e) => console.log(e));
         }
-    }, [isSuccess, data]);
-
-    const uploadImage = (file: any) => {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', 'imagequizapp');
-        formData.append('cloud_name', 'dfl3qnj7z');
-        fetch(`https://api.cloudinary.com/v1_1/dfl3qnj7z/image/upload`, {
-            method: 'post',
-            body: formData
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setLoadingUpload(false);
-                props.handleChangeForm({
-                    target: { name: 'avatar', value: data?.secure_url }
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            });
     };
 
     return (
@@ -97,7 +80,7 @@ const UploadAvatar = (props: FormTypeProps) => {
                     transition={{ duration: 0.4, delay: 0.1 }}
                     className='text-center text-[1.5rem] font-bold leading-8 tracking-tight text-textWhite'
                 >
-                    {language === 'en' ? 'Choose your image' : 'Chọn ảnh của bạn'}
+                    Choose your image
                 </motion.h2>
                 <motion.p
                     initial={{ y: -100, opacity: 0 }}
@@ -105,59 +88,56 @@ const UploadAvatar = (props: FormTypeProps) => {
                     transition={{ duration: 0.4, delay: 0.2 }}
                     className='min-w-[400px] text-center text-sm text-textGray'
                 >
-                    {language === 'en'
-                        ? 'Give your server a personality with a name and an image. You can always change it later.'
-                        : 'gửi cho máy chủ tên và hình ảnh , ảnh của bạn sẽ được sử dụng làm ảnh đại diện'}
+                    Give your server a personality with a name and an image. You can always change it later.
                 </motion.p>
                 <motion.div initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.4, delay: 0.3 }} className='px-6'>
                     <div className='flex items-center justify-center'>
-                        <div className='flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-textGray px-6 py-10 text-center'>
-                            <MdCloudUpload className='m-auto h-12 w-12 text-textWhite' />
-                            <label className='relative flex w-[16rem] cursor-pointer flex-col justify-center text-sm font-semibold text-textBlueLight'>
-                                {language === 'en' ? 'Choose files or drag and drop' : 'Chọn file hoặc thư mục và gán'}
-                                <input
-                                    className='absolute m-[-1px] h-[1px] w-[1px] overflow-hidden whitespace-nowrap p-0'
-                                    type='file'
-                                    id='avatar'
-                                    name='avatar'
-                                    accept='image/png,image/jpeg'
-                                    onChange={(e: any) => {
-                                        props.handleChangeForm({
-                                            target: {
-                                                name: 'avatar',
-                                                value: ''
-                                            }
-                                        });
-                                        setFile(e.target.files[0]);
-                                    }}
-                                />
-                            </label>
-
-                            <div className='leading-6 text-textGray'>Image(4MB)</div>
-                            {file && (
-                                <button
-                                    className={clsx(
-                                        `flex items-center justify-center rounded-xl  px-6 py-2 text-sm font-bold leading-7 text-textWhite`,
-                                        props.avatar ? 'bg-textGreen' : 'bg-bgBlue hover:font-extrabold'
-                                    )}
-                                    onClick={() => {
-                                        setLoadingUpload(true);
-                                        uploadImage(file);
-                                    }}
-                                >
-                                    {!props.avatar ? (
-                                        loadingUpload ? (
-                                            <Image src={loadingImg} alt='' className='h-7 w-7' />
-                                        ) : language === 'en' ? (
-                                            'Upload Image'
-                                        ) : (
-                                            'Tải ảnh lên'
-                                        )
-                                    ) : (
-                                        <AiOutlineCheck className='h-[20px] w-[20px] font-extrabold' />
-                                    )}
-                                </button>
-                            )}
+                        <div className='flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-textGray px-10 py-6 text-center'>
+                            <CldUploadWidget
+                                uploadPreset='quizzes_app'
+                                options={{
+                                    folder: 'quizzes/user',
+                                    sources: ['local', 'url', 'google_drive'],
+                                    multiple: false,
+                                    styles: {}
+                                }}
+                                onSuccess={(result: any) => {
+                                    setNewAvatar(result.info.secure_url);
+                                    props.handleChangeForm({
+                                        target: { name: 'avatar', value: result.info.secure_url }
+                                    });
+                                }}
+                                onError={(error) => {
+                                    console.log(error);
+                                }}
+                            >
+                                {({ open }) => {
+                                    return (
+                                        <div className='relative h-[140px] w-[140px]'>
+                                            <img
+                                                className='h-full w-full rounded-[70px] object-cover'
+                                                src={
+                                                    newAvatar
+                                                        ? newAvatar
+                                                        : 'https://res.cloudinary.com/dadvtny30/image/upload/v1706534569/foodorder/user/lgdkebapensuoktdcmqa.png'
+                                                }
+                                            />
+                                            <button className='absolute -right-6 top-0' onClick={handleDeleteImage}>
+                                                <FaTrashCan size={32} color='white' />
+                                            </button>
+                                            <button
+                                                className='absolute -right-6 bottom-0'
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    open();
+                                                }}
+                                            >
+                                                <MdEdit size={32} color='white' />
+                                            </button>
+                                        </div>
+                                    );
+                                }}
+                            </CldUploadWidget>
                         </div>
                     </div>
                 </motion.div>
@@ -171,7 +151,7 @@ const UploadAvatar = (props: FormTypeProps) => {
                         setSkip(!skip);
                     }}
                 >
-                    {language === 'en' ? 'Skip' : 'Bỏ qua'}
+                    Skip
                 </motion.button>
 
                 <motion.button
@@ -184,7 +164,7 @@ const UploadAvatar = (props: FormTypeProps) => {
                         props.setShowUploadImage(false);
                     }}
                 >
-                    {language === 'en' ? 'Back' : 'Trở về'}
+                    Back
                 </motion.button>
             </div>
             <motion.div
@@ -195,13 +175,14 @@ const UploadAvatar = (props: FormTypeProps) => {
             >
                 {(props.avatar || skip) && (
                     <motion.button
+                        disabled={isLoading}
                         initial={{ x: 100, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ duration: 0.4, delay: 0.6 }}
                         className='cursor-pointer  rounded-xl bg-textGreen px-6 py-2 text-sm font-bold leading-7 text-textWhite hover:font-black'
                         onClick={handleSignUp}
                     >
-                        {isLoading ? <Image src={loadingImg} alt='' className='h-7 w-7 self-center' /> : language === 'en' ? 'Finished' : 'Hoàn thành'}
+                        {isLoading ? <CircularProgress isIndeterminate color='white' size={24} /> : 'Finished'}
                     </motion.button>
                 )}
             </motion.div>

@@ -101,7 +101,7 @@ function Page() {
                                                 key={quiz._id + index}
                                                 category={quiz.category.name}
                                                 grade={quiz.grade.name}
-                                                image={quiz.backgroundImage}
+                                                image={quiz.coverImage}
                                                 numberOfQuestion={quiz.numberOfQuestions}
                                                 title={quiz.name}
                                                 author={quiz.creator as CreatorType}

@@ -1,15 +1,22 @@
-import Image from 'next/image';
-import Link from 'next/link';
+//hook
 import { useRouter } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 
-// Icons
+//next
+import Image from 'next/image';
+import Link from 'next/link';
+
+// icons
 import { IoSettingsOutline } from 'react-icons/io5';
 import { BiSave } from 'react-icons/bi';
 import { RxExit } from 'react-icons/rx';
 
-// Constants
+// components
+import ExitEditDialog from './dialog/ExitEditDialog';
+import QuizType from 'src/app/types/quizType';
+import { toast } from 'react-toastify';
+
+// constants
 import paths from 'src/constants/paths';
 import { CreatorMessages } from 'src/constants/messages';
 import { ToastOptions } from 'src/constants/toast';
@@ -21,23 +28,21 @@ import { saveQuiz } from 'src/app/redux/slices/quizCreatorSlice';
 import { useUpdateQuizMutation } from 'src/app/redux/services/quizApi';
 import { saveQuizFromCreator } from 'src/app/redux/slices/quizSlice';
 
-// Components
-import ExitEditDialog from './dialog/ExitEditDialog';
-
 interface IProps {
+    quiz: Partial<QuizType>;
     setIsOpenSettingModal: Dispatch<SetStateAction<boolean>>;
     setIsOpenThemeModal: Dispatch<SetStateAction<boolean>>;
 }
 
-function CreatorNavbar({ setIsOpenSettingModal, setIsOpenThemeModal }: IProps) {
+function CreatorNavbar(props: IProps) {
+    const { setIsOpenSettingModal, setIsOpenThemeModal, quiz } = props;
     const dispatch = useAppDispatch();
-    const { quiz } = useAppSelector((state) => state.quizCreator);
 
     const router = useRouter();
 
     const [updateQuiz, { data, isSuccess, isLoading, isError, error }] = useUpdateQuizMutation();
 
-    const [isOpenExitEditDialog, setIsOpenExitEditDialog] = useState(false);
+    const [isOpenExitEditDialog, setIsOpenExitEditDialog] = useState<boolean>(false);
 
     const handleOpenSettingModal = () => {
         setIsOpenSettingModal(true);
@@ -47,57 +52,59 @@ function CreatorNavbar({ setIsOpenSettingModal, setIsOpenThemeModal }: IProps) {
         setIsOpenThemeModal(true);
     };
 
-    useEffect(() => {
-        if (isSuccess) {
-            toast.success(CreatorMessages.SUCCESS.SAVE_QUIZ, ToastOptions);
-            router.push(paths.library);
-            data && dispatch(saveQuizFromCreator(data));
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSuccess]);
+    // useEffect(() => {
+    //     if (isSuccess) {
+    //         toast.success(CreatorMessages.SUCCESS.SAVE_QUIZ, ToastOptions);
+    //         router.push(paths.library);
+    //         data && dispatch(saveQuizFromCreator(data));
+    //     }
+    // }, [isSuccess]);
 
     useEffect(() => {
         if (isError) {
             console.log('Create Navbar Error: ', (error as any)?.data?.message);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isError]);
 
     const handleExitQuiz = () => {
-        if (quiz.category._id === '') {
+        if (quiz.category?._id === '') {
             toast.error(CreatorMessages.ERROR.CATEGORY_REQUIRED, ToastOptions);
             return;
         }
-        if (quiz.grade._id === '') {
+        if (quiz.grade?._id === '') {
             toast.error(CreatorMessages.ERROR.GRADE_REQUIRED, ToastOptions);
             return;
         }
         setIsOpenExitEditDialog(true);
     };
 
-    const handleQuizSubmit = () => {
-        if (quiz.category._id === '') {
+    const handleQuizSubmit = async () => {
+        if (quiz.category?._id === '') {
             toast.error(CreatorMessages.ERROR.CATEGORY_REQUIRED, ToastOptions);
             return;
         }
-        if (quiz.grade._id === '') {
+        if (quiz.grade?._id === '') {
             toast.error(CreatorMessages.ERROR.GRADE_REQUIRED, ToastOptions);
             return;
         }
-        if (!validateQuestionList()) return;
-        dispatch(saveQuiz());
-        updateQuiz({
-            quizId: quiz._id,
-            updateQuiz: quiz
-        })
-            .unwrap()
-            .then((res) => {
-                dispatch(saveQuizFromCreator(res));
-            });
+        // if (!validateQuestionList()) return;
+        // dispatch(saveQuiz());
+        try {
+            const objectUpdate = {
+                id: quiz._id!,
+                data: quiz
+            };
+            const result = await updateQuiz(objectUpdate).unwrap();
+            if (result) {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     const validateQuestionList = () => {
-        return quiz.questionList.every((question) => {
+        return quiz.questionList?.every((question) => {
             // Check if question is empty
             if (question.content === '') {
                 toast.error(CreatorMessages.ERROR.QUESTION_REQUIRED, ToastOptions);
@@ -152,7 +159,7 @@ function CreatorNavbar({ setIsOpenSettingModal, setIsOpenThemeModal }: IProps) {
                             onClick={handleOpenSettingModal}
                             className='ml-4 flex items-center justify-between rounded-md md:p-1 md:outline md:outline-1 md:outline-gray-300 lg:min-w-[360px]'
                         >
-                            <p className='ml-1 line-clamp-1 hidden w-2/3 overflow-hidden text-ellipsis text-left font-bold text-gray-400 md:inline md:pr-6 lgl:pr-12'>
+                            <p className='ml-1 line-clamp-1 hidden w-2/3 overflow-hidden truncate text-ellipsis text-left font-bold text-gray-400 md:inline md:pr-6 lgl:pr-12'>
                                 {quiz.name || 'Enter your quiz title...'}
                             </p>
                             <div className='flex items-center justify-center rounded bg-gray-300 px-1 py-1 max-md:h-8 max-md:w-8 md:justify-between md:px-2'>

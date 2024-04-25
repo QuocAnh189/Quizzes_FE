@@ -1,13 +1,11 @@
+//next
 import Link from 'next/link';
 import Image from 'next/image';
+
+//asset
 import { logoImg } from '../../../../public/assets/images/landing';
 
-interface BottomProps {
-    language: string;
-}
-const Bottom = (props: BottomProps) => {
-    const { language } = props;
-
+const Bottom = () => {
     return (
         <div className='w-full py-[5rem]'>
             <div className='flex w-full flex-col justify-between mdl:flex-row'>
@@ -18,9 +16,8 @@ const Bottom = (props: BottomProps) => {
                     </Link>
                     <div className='self-center py-4'>
                         <p className='text-center text-[1em] leading-snug mdl:text-left'>
-                            {language === 'en'
-                                ? 'We are fully compliant with the EU General Data Protection Regulation (GDPR) and guarantee ISO 27001 certified server locations in   Europe.'
-                                : 'Chúng tôi hoàn toàn tuân thủ Quy định bảo vệ dữ liệu chung của EU (GDPR) và đảm bảo các vị trí máy chủ được chứng nhận ISO 27001 ở Châu Âu.'}
+                            We are fully compliant with the EU General Data Protection Regulation (GDPR) and guarantee ISO 27001 certified server locations in
+                            Europe.
                         </p>
                     </div>
                     <div className='mt-auto flex flex-col items-start gap-x-[1.25rem] gap-y-[1.25rem]'>
@@ -53,88 +50,88 @@ const Bottom = (props: BottomProps) => {
                             <div className='text-[1.13em] font-bold leading-[1.45] text-textWhite'>Quizzes</div>
                         </div>
                         <a href='/' aria-current='page' className='text-textGray'>
-                            {language === 'en' ? 'Home' : 'Trang chủ'}
+                            Home
                         </a>
                         <a href='/pricing' className='text-textGray'>
-                            {language === 'en' ? 'Pricing' : 'Giá trị'}
+                            Pricing
                         </a>
                         <a href='/roadmap' className='text-textGray'>
-                            {language === 'en' ? 'Roadmap' : 'Biểu đồ'}
+                            Roadmap
                         </a>
                         <div className='c-footer_label cc-sub-label'>
-                            <div className='text-[1.13em] font-bold leading-[1.45] text-textWhite'>{language === 'en' ? 'Features' : 'Tính năng'}</div>
+                            <div className='text-[1.13em] font-bold leading-[1.45] text-textWhite'>Features</div>
                         </div>
                         <a href='/product/project-management' className='text-textGray'>
-                            {language === 'en' ? ' Project management' : 'Quản lý dự án'}
+                            Project management
                         </a>
                         <a href='/product/team-scheduling' className='text-textGray'>
-                            {language === 'en' ? 'Team scheduling' : 'Lịch trình đội'}
+                            Team scheduling'
                         </a>
                         <a href='/product/time-tracking' className='text-textGray'>
-                            {language === 'en' ? 'Time tracking' : 'Thời gian'}
+                            Time tracking
                         </a>
                         <div className='c-footer_label cc-sub-label'>
-                            <div className='text-[1.13em] font-bold leading-[1.45] text-textWhite'>{language === 'en' ? 'Solutions' : 'Biện pháp'}</div>
+                            <div className='text-[1.13em] font-bold leading-[1.45] text-textWhite'>Solutions</div>
                         </div>
                         <a href='/solutions/agencies' className='text-textGray'>
-                            {language === 'en' ? 'Agencies' : 'Bảo mật'}
+                            Agencies
                         </a>
                         <a href='/solutions/consulting' className='text-textGray'>
-                            {language === 'en' ? 'Consultancies' : 'Tiêu thụ'}
+                            Consultancies
                         </a>
                         <a href='/solutions/tech' className='text-textGray'>
-                            {language === 'en' ? 'Sotfware' : 'Phần mềm'} &amp; {language === 'en' ? 'IT' : 'Thông tin'}
+                            Sotfware &amp; IT
                         </a>
                         <a href='/solutions/public-services' className='text-textGray'>
-                            {language === 'en' ? 'Public Services' : 'Thiết bị cộng đồng'}
+                            Public Services
                         </a>
                     </div>
 
                     <div className='flex flex-1 flex-col items-start gap-y-[1rem]'>
                         <div className='c-footer_label'>
-                            <div className='text-[1.13em] font-bold leading-[1.45] text-textWhite'> {language === 'en' ? 'About' : 'Thông tin'}</div>
+                            <div className='text-[1.13em] font-bold leading-[1.45] text-textWhite'>About</div>
                         </div>
                         <a href='/about-us' className='text-textGray'>
-                            {language === 'en' ? 'About us' : 'Về chúng tôi'}
+                            About us
                         </a>
                         <a href='/about-us' className='text-textGray'>
-                            {language === 'en' ? 'Job' : 'Công việc'}
+                            Job
                         </a>
                         <a href='/about-us' className='text-textGray'>
-                            {language === 'en' ? 'Press' : 'Điểm nhấn'}
+                            Press
                         </a>
                         <a href='/about-us' className='text-textGray'>
-                            {language === 'en' ? 'Blog' : 'Sưu tập'}
+                            Blog
                         </a>
                         <a href='/work-happiness-report' className='text-textGray'>
-                            {language === 'en' ? 'Work Happiness Report' : 'Báo cáo công việc'}
+                            Work Happiness Report
                         </a>
                         <a href='/legal-and-privacy/imprint' className='text-textGray'>
-                            {language === 'en' ? 'Imprint' : 'Dấu ấn'}
+                            Imprint
                         </a>
                         <a href='/legal-and-privacy' className='text-textGray'>
-                            {language === 'en' ? 'Legal' : 'Pháp luật'} &amp; {language === 'en' ? 'data privacy' : 'Chính sách'}
+                            Legal &amp; data privacy
                         </a>
                         <a href='/legal-and-privacy/imprint' className='text-textGray'>
-                            {language === 'en' ? 'Imprint' : 'Dấu ấn'}
+                            Imprint
                         </a>
                     </div>
 
                     <div className='flex flex-1 flex-col items-start gap-y-[1rem]'>
                         <div className='c-footer_label'>
-                            <div className='text-[1.13em] font-bold leading-[1.45] text-textWhite'> {language === 'en' ? 'Support' : 'Hỗ trợ'}</div>
+                            <div className='text-[1.13em] font-bold leading-[1.45] text-textWhite'>Support</div>
                         </div>
                         <a href='/webinars' className='text-textGray'>
-                            {language === 'en' ? 'Webinar' : 'Hội thảo'}
+                            Webinar
                         </a>
                         <a href='http://support.awork.io/en/' target='_blank' className='text-textGray'>
-                            {language === 'en' ? 'Help center' : 'Trung tâm hỗ trợ'}
+                            Help center
                         </a>
                         <a href='https://developers.awork.com' target='_blank' className='text-textGray'>
-                            {language === 'en' ? 'Developer portal' : 'Nhà phát triển'}
+                            Developer portal
                         </a>
                         <a href='http://status.awork.io' target='_blank' className='text-textGray'>
-                            {language === 'en' ? 'System status' : 'Trạng thái hệ thống'}
+                            System status
                         </a>
                         <div className='c-footer_contact'>
                             <a href='tel:+4940238312300' className='c-footer_contact-link w-inline-block'>

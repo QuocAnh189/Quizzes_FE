@@ -7,9 +7,9 @@ type SignUpType = {
     lastName: string;
     userType: string;
     userName: string;
-    mail: string;
+    email: string;
     password: string;
-    workspace: { name: { en: string; vn: string } };
+    workPlace: { name: { en: string; vn: string } };
 };
 
 type ErrorExistSingUp = {
@@ -26,7 +26,7 @@ type ErrorUserType = {
 };
 
 type LoginType = {
-    mail: string;
+    email: string;
     password: string;
 };
 

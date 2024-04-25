@@ -8,7 +8,7 @@ type QuizType = {
     name: string;
     creator: CreatorType | string;
     description: string;
-    backgroundImage: string;
+    coverImage: string;
     isPublic: boolean;
     tags: string[];
     isDraft: boolean;
@@ -41,7 +41,7 @@ export const InitQuiz = {
         lastName: ''
     },
     description: '',
-    backgroundImage: '',
+    coverImage: '',
     isPublic: true,
     pointsPerQuestion: 1,
     numberOfQuestions: 1,

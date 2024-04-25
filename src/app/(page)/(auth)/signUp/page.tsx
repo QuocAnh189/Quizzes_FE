@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+//hook
+import React, { useState } from 'react';
 
 //component
 import FormSignUp from 'src/components/auth/FormSignUp';
 import FormUserName from 'src/components/auth/UserName';
 import FormUserType from 'src/components/auth/UserType';
 import LoadingRoute from 'src/components/LoadingRoute';
+
 //animation
 import { motion } from 'framer-motion';
 
@@ -21,9 +23,9 @@ const InitSignUp = {
     lastName: '',
     userType: '',
     userName: '',
-    mail: '',
+    email: '',
     password: '',
-    workspace: { logo: '', name: { en: '', vn: '' } }
+    workPlace: { logo: '', name: { en: '', vn: '' } }
 } as SignUpType;
 
 const SignUp = () => {
@@ -56,7 +58,7 @@ const SignUp = () => {
                     setShowFormSignUp={setShowFormSignUp}
                     setShowFormUserName={setShowFormUserName}
                     handleChangeForm={handleChangeForm}
-                    mail={formData.mail}
+                    email={formData.email}
                     password={formData.password}
                 />
             )}
@@ -87,7 +89,7 @@ const SignUp = () => {
                     setShowFormWorkSpace={setShowFormWorkSpace}
                     setShowUploadImage={setShowUploadImage}
                     handleChangeForm={handleChangeForm}
-                    workspace={formData.workspace}
+                    workPlace={formData.workPlace}
                     handleSignUp={handleSignUp}
                 />
             )}

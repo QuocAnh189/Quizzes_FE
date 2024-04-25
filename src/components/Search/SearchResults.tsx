@@ -29,7 +29,7 @@ function SearchResults({ quizzes }: { quizzes: QuizType[] }) {
                                 id={item._id}
                                 title={item.name}
                                 numberOfQuestion={item.numberOfQuestions}
-                                image={item.backgroundImage}
+                                image={item.coverImage}
                                 category={item.category.name}
                                 grade={item.grade.name}
                                 author={(item.creator as CreatorType).firstName + ' ' + (item.creator as CreatorType).lastName}

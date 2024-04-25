@@ -1,12 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { API } from '../api';
 import LeaderBoardType, { AnswerLeaderBoardResultType } from 'src/app/types/leaderboardType';
 import { RootState } from '../store';
 
 export const apiLeaderBoard = createApi({
     reducerPath: 'apiLeaderBoard',
     baseQuery: fetchBaseQuery({
-        baseUrl: API,
+        baseUrl: process.env.API_URL,
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).auth.authData?.accessToken;
 
@@ -22,14 +21,14 @@ export const apiLeaderBoard = createApi({
     endpoints: (builder) => ({
         getLeaderBoard: builder.query<LeaderBoardType, { leaderBoardId: string }>({
             query: ({ leaderBoardId }) => ({
-                url: `api/leaderBoard/${leaderBoardId}`,
+                url: `/leaderboards/${leaderBoardId}`,
                 method: 'GET'
             })
         }),
 
         createLeaderBoard: builder.mutation<LeaderBoardType, { newLeaderBoard: Omit<LeaderBoardType, '_id'> }>({
             query: ({ newLeaderBoard }) => ({
-                url: `api/leaderBoard`,
+                url: `/leaderboards`,
                 method: 'POST',
                 body: newLeaderBoard
             })
@@ -37,14 +36,14 @@ export const apiLeaderBoard = createApi({
 
         deleteLeaderBoard: builder.mutation<void, { leaderBoardId: string }>({
             query: ({ leaderBoardId }) => ({
-                url: `api/leaderBoard/${leaderBoardId}`,
+                url: `/leaderboards/${leaderBoardId}`,
                 method: 'DELETE'
             })
         }),
 
         updateQuestionLeaderBoard: builder.mutation<LeaderBoardType, { leaderBoardId: string; update: LeaderBoardType }>({
             query: ({ leaderBoardId, update }) => ({
-                url: `api/leaderBoard/${leaderBoardId}/questionLeaderBoard`,
+                url: `/leaderboards/${leaderBoardId}/questionLeaderBoard`,
                 method: 'PATCH',
                 body: update
             })
@@ -55,7 +54,7 @@ export const apiLeaderBoard = createApi({
             { leaderBoardId: string; questionIndex: number; formUpdate: AnswerLeaderBoardResultType[] }
         >({
             query: ({ leaderBoardId, questionIndex, formUpdate }) => ({
-                url: `api/leaderBoard/${leaderBoardId}/currentLeaderBoard`,
+                url: `/leaderboards/${leaderBoardId}/current-leaderBoard`,
                 method: 'PATCH',
                 body: { questionIndex, formUpdate }
             })
@@ -63,7 +62,7 @@ export const apiLeaderBoard = createApi({
 
         addLeaderBoardPlayerResult: builder.mutation<void, { leaderBoardId: string; playerResultId: string }>({
             query: ({ leaderBoardId, playerResultId }) => ({
-                url: `api/leaderBoard/${leaderBoardId}/addPlayerResult`,
+                url: `/leaderboards/${leaderBoardId}/add-player-result`,
                 method: 'PATCH',
                 body: { playerResultId }
             })

@@ -1,13 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { API } from '../api';
 import PlayerResultType, { AnswerPlayerType } from 'src/app/types/playerResultType';
 import { RootState } from '../store';
-import { TypePlayerResult } from 'src/app/variable';
 
 export const apiPlayerResult = createApi({
     reducerPath: 'apiPlayerResult',
     baseQuery: fetchBaseQuery({
-        baseUrl: API,
+        baseUrl: process.env.API_URL,
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).auth.authData?.accessToken;
 
@@ -23,7 +21,7 @@ export const apiPlayerResult = createApi({
     endpoints: (builder) => ({
         createPlayerResult: builder.mutation<PlayerResultType, { newPlayerResult: Omit<PlayerResultType, '_id'> }>({
             query: ({ newPlayerResult }) => ({
-                url: `api/playerResult`,
+                url: `/player-results`,
                 method: 'POST',
                 body: newPlayerResult
             })
@@ -31,7 +29,7 @@ export const apiPlayerResult = createApi({
 
         updatePlayerResult: builder.mutation<PlayerResultType, { id: string; answers: AnswerPlayerType[]; score: number }>({
             query: ({ id, answers, score }) => ({
-                url: `api/playerResult/${id}`,
+                url: `/player-results/${id}`,
                 method: 'PATCH',
                 body: { answers, score }
             })
@@ -39,14 +37,14 @@ export const apiPlayerResult = createApi({
 
         removePlayerResult: builder.mutation<PlayerResultType, { playerId: string }>({
             query: ({ playerId }) => ({
-                url: `api/playerResult/${playerId}`,
+                url: `/player-results/${playerId}`,
                 method: 'DELETE'
             })
         }),
 
         addPlayerResult: builder.mutation<PlayerResultType, { playerId: string; gameId: string; results: any }>({
             query: ({ playerId, gameId, results }) => ({
-                url: `api/playerResult/${playerId}/results/${gameId}`,
+                url: `/player-results/${playerId}/results/${gameId}`,
                 method: 'PATCH',
                 body: results
             })

@@ -1,14 +1,15 @@
 'use client';
-import { useRef, useEffect, useState } from 'react';
 
-//images
+//hook
+import { useState } from 'react';
+
+//nexxt
 import Image from 'next/image';
 
 import clsx from 'clsx';
 
 //animation
 import { motion } from 'framer-motion';
-import { studentsImg, teacherImg } from '../../../public/assets/images/auth';
 
 //const
 import schools from 'src/constants/school';
@@ -19,29 +20,18 @@ interface WorkSpaceProps {
     setShowUploadImage: (state: boolean) => void;
     handleChangeForm: (e: React.ChangeEvent<HTMLInputElement> | any) => void;
     handleSignUp: () => void;
-    workspace: any;
+    workPlace: any;
 }
 
 const FormWorkSpace = (props: WorkSpaceProps) => {
-    const mounted = useRef<boolean>(true);
-    const [language, setLanguage] = useState('');
     const handleContinue = () => {
-        if (props.workspace) {
+        if (props.workPlace) {
             props.setShowFormWorkSpace(false);
             props.setShowUploadImage(true);
         }
     };
 
     const [select, setSelect] = useState<number>(-1);
-
-    useEffect(() => {
-        mounted.current = true;
-        const value = JSON.parse(localStorage.getItem('language')!);
-        setLanguage(value);
-        return () => {
-            mounted.current = false;
-        };
-    }, []);
 
     return (
         <div className='absolute left-[50%] top-[50%] max-h-screen w-[760px] translate-x-[-50%] translate-y-[-50%] overflow-hidden rounded-[50px] bg-bgBlackLight px-[210px]  font-sans mdl:min-h-[600px]'>
@@ -55,17 +45,16 @@ const FormWorkSpace = (props: WorkSpaceProps) => {
                     transition={{ duration: 0.4, delay: 0.3 }}
                     className='mb-[15px] break-words px-2 text-center text-[2rem] font-black leading-[1.3em] text-textWhite mdl:w-[560px]'
                 >
-                    {language === 'en' ? `Where are you working ?` : 'Bạn đang công tác nơi nào ?'}
+                    Where are you working ?
                 </motion.h1>
 
                 {schools.map((school, index) => (
                     <School
                         key={index}
-                        workspace={props.workspace}
+                        workspace={props.workPlace}
                         index={index}
                         select={select}
                         setSelect={() => setSelect(index)}
-                        language={language}
                         school={school}
                         handleChangeForm={props.handleChangeForm}
                     />
@@ -80,13 +69,13 @@ const FormWorkSpace = (props: WorkSpaceProps) => {
                     <button
                         className={clsx(
                             `mt-2 flex w-[160px] max-w-[200px] items-center justify-center rounded-[20px] bg-bgBlue py-[12px] text-center text-[16px] text-textWhite`,
-                            props.workspace
+                            props.workPlace
                                 ? 'cursor-pointer bg-bgBlue font-semibold hover:py-[14px] hover:font-bold'
                                 : 'cursor-default bg-textGray font-semibold'
                         )}
                         onClick={handleContinue}
                     >
-                        {language === 'en' ? 'Continue' : 'Tiếp theo'}
+                        Continue
                     </button>
                 </motion.div>
 
@@ -100,7 +89,7 @@ const FormWorkSpace = (props: WorkSpaceProps) => {
                         props.setShowFormUserType(true);
                     }}
                 >
-                    {language === 'en' ? 'Back' : 'Trở về'}
+                    Back
                 </motion.button>
             </div>
         </div>
@@ -112,12 +101,11 @@ interface SchoolProps {
     index: number;
     handleChangeForm: (e: React.ChangeEvent<HTMLInputElement> | any) => void;
     school: any;
-    language: string;
     select: number;
     setSelect: () => void;
 }
 const School = (props: SchoolProps) => {
-    const { workspace, index, select, setSelect, handleChangeForm, school, language } = props;
+    const { workspace, index, select, setSelect, handleChangeForm, school } = props;
 
     return (
         <motion.div
@@ -126,12 +114,11 @@ const School = (props: SchoolProps) => {
             transition={{ duration: 0.4, delay: 0.5 }}
             className={clsx(
                 `flex min-h-[50px] w-[400px] flex-1 cursor-pointer flex-row items-center justify-between rounded-[20px] bg-bgBlackType px-4 outline-none hover:bg-bgBlackHover mdl:w-[600px]`,
-                // select === index && 'border-[2px] border-bgBlue',
                 (workspace === school.name.en || workspace === school.name.vn) && 'border-[2px] border-bgBlue'
             )}
             onClick={() => {
                 handleChangeForm({
-                    target: { name: 'workspace', value: school.name.en }
+                    target: { name: 'workPlace', value: school.name.en }
                 });
                 setSelect();
             }}
@@ -140,7 +127,7 @@ const School = (props: SchoolProps) => {
                 <Image alt='' src={school.logo} className='h-[30px] w-[30px] rounded-full' width={30} height={30} />
             </div>
             <div className='max-w-[220px] mdl:max-w-full'>
-                <p className='text-white'>{language === 'en' ? school.name.en : school.name.vn}</p>
+                <p className='text-white'>{school.name.en}</p>
             </div>
         </motion.div>
     );

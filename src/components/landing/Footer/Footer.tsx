@@ -6,12 +6,7 @@ import Middle from './MIddle';
 //animation
 import { motion } from 'framer-motion';
 
-interface ManageProps {
-    language: string;
-}
-const Footer = (props: ManageProps) => {
-    const { language } = props;
-
+const Footer = () => {
     return (
         <motion.section
             initial={{ y: -10, opacity: 0 }}
@@ -20,9 +15,9 @@ const Footer = (props: ManageProps) => {
             id='information'
             className='w-screen rounded-t-[32px] bg-bgBlack'
         >
-            <Header language={language} />
-            <Middle language={language} />
-            <Bottom language={language} />
+            <Header />
+            <Middle />
+            <Bottom />
         </motion.section>
     );
 };

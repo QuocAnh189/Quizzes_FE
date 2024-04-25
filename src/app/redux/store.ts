@@ -6,6 +6,7 @@ import storage from 'redux-persist/lib/storage';
 //api
 import { apiAuth } from './services/authApi';
 import { apiQuiz } from './services/quizApi';
+import { apiQuestion } from './services/questionApi';
 import { apiUser } from './services/userApi';
 import { apiGame } from './services/gameApi';
 import { apiLeaderBoard } from './services/leaderBoardApi';
@@ -13,6 +14,7 @@ import { apiPlayerResult } from './services/playerResultApi';
 import { apiCommunity } from './services/communityApi';
 import { apiCategory } from './services/categoryApi';
 import { apiGrade } from './services/gradeApi';
+import { apiProvider } from './services/providerApi';
 
 // Slices
 import authReducer, { AuthSliceKey } from './slices/authSlice';
@@ -59,13 +61,15 @@ const combinedReducer = combineReducers({
 
     [apiAuth.reducerPath]: apiAuth.reducer,
     [apiQuiz.reducerPath]: apiQuiz.reducer,
+    [apiQuestion.reducerPath]: apiQuestion.reducer,
     [apiUser.reducerPath]: apiUser.reducer,
     [apiGame.reducerPath]: apiGame.reducer,
     [apiLeaderBoard.reducerPath]: apiLeaderBoard.reducer,
     [apiPlayerResult.reducerPath]: apiPlayerResult.reducer,
     [apiCommunity.reducerPath]: apiCommunity.reducer,
     [apiCategory.reducerPath]: apiCategory.reducer,
-    [apiGrade.reducerPath]: apiGrade.reducer
+    [apiGrade.reducerPath]: apiGrade.reducer,
+    [apiProvider.reducerPath]: apiProvider.reducer
 });
 
 const rootReducer = (state: any, action: any) => {
@@ -95,11 +99,13 @@ const store = configureStore({
             apiCategory.middleware,
             apiGrade.middleware,
             apiQuiz.middleware,
+            apiQuestion.middleware,
             apiUser.middleware,
             apiGame.middleware,
             apiLeaderBoard.middleware,
             apiPlayerResult.middleware,
-            apiCommunity.middleware
+            apiCommunity.middleware,
+            apiProvider.middleware
         ])
 });
 

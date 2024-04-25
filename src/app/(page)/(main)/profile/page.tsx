@@ -162,7 +162,7 @@ const Profile = () => {
                                 <h3 className='text-blueGray-700 mb-2 text-4xl font-semibold leading-normal'>{user.userName}</h3>
                                 <div className='text-blueGray-600 mb-2'>
                                     <i className='fas fa-university text-blueGray-400 mr-2 text-lg'></i>
-                                    {user.userType} in {user.workspace}
+                                    {user.userType} in {user.workPlace}
                                 </div>
                             </div>
                             <div className='border-blueGray-200 mt-10 border-t py-10 text-center'>

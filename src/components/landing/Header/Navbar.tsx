@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
+//next
 import Link from 'next/link';
 
 //icons
 import { WiDirectionRight } from 'react-icons/wi';
-import { RiArrowDropDownLine } from 'react-icons/ri';
+
 import { RxDividerVertical } from 'react-icons/rx';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { FcHome } from 'react-icons/fc';
@@ -18,25 +18,10 @@ import { logoImg } from '../../../../public/assets/images/landing';
 //animation
 import { motion } from 'framer-motion';
 
-//auth
-import { useSession } from 'next-auth/react';
-
 //redux
-import { useAppSelector, useAppDispatch } from 'src/app/redux/hooks';
 import { setLanguage } from 'src/app/redux/slices/languageSlice';
-import { useLocalStorage } from 'src/hooks/useLocalStorage';
 
-interface NavbarProps {
-    language: string;
-    setLanguage: (value: string) => void;
-}
-const Navbar = (props: NavbarProps) => {
-    const { language, setLanguage } = props;
-
-    const dispatch = useAppDispatch();
-    const ref = useRef<string | any>('');
-    const [showMenu, setShowMenu] = useState<boolean>(false);
-
+const Navbar = () => {
     const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
         const href = e.currentTarget.href;
@@ -89,7 +74,7 @@ const Navbar = (props: NavbarProps) => {
                                                     <FcHome className='w-[20px]' />
                                                 </span>
                                             </div>
-                                            <div className='min-w-[90px] text-[1em] leading-snug'>{language === 'en' ? 'Intro' : 'Giới thiệu'}</div>
+                                            <div className='min-w-[90px] text-[1em] leading-snug'>Intro</div>
                                         </div>
                                     </div>
                                 </motion.li>
@@ -108,7 +93,7 @@ const Navbar = (props: NavbarProps) => {
                                                     <FcManager className='w-[20px]' />
                                                 </span>
                                             </div>
-                                            <div className='inline-block min-w-[80px] leading-snug'>{language === 'en' ? 'Manage' : 'Quản lý'}</div>
+                                            <div className='inline-block min-w-[80px] leading-snug'>Manage</div>
                                         </div>
                                     </div>
                                 </motion.li>
@@ -127,7 +112,7 @@ const Navbar = (props: NavbarProps) => {
                                                     <FcViewDetails className='w-[20px]' />
                                                 </span>
                                             </div>
-                                            <div className='min-w-[90px] text-[1em] leading-snug'>{language === 'en' ? 'Overview' : 'Tổng quan'}</div>
+                                            <div className='min-w-[90px] text-[1em] leading-snug'>Overview</div>
                                         </div>
                                     </div>
                                 </motion.li>
@@ -146,7 +131,7 @@ const Navbar = (props: NavbarProps) => {
                                                     <FcInfo className='w-[20px]' />
                                                 </span>
                                             </div>
-                                            <span className='min-w-[100px] text-[1em] leading-snug'>{language === 'en' ? 'Information' : 'Thông tin'}</span>
+                                            <span className='min-w-[100px] text-[1em] leading-snug'>Information</span>
                                         </div>
                                     </div>
                                 </motion.li>
@@ -158,7 +143,7 @@ const Navbar = (props: NavbarProps) => {
                                 className='font-bold'
                             >
                                 <div className='relative z-[900] mx-auto mt-1 inline-block cursor-pointer rounded-xl px-1 py-2 text-center hover:bg-textPurpleHover'>
-                                    <div className='mb-0 mt-0 text-[1em] leading-snug'>{language === 'en' ? 'About us' : 'Liên quan'}</div>
+                                    <div className='mb-0 mt-0 text-[1em] leading-snug'>About us</div>
                                 </div>
                             </motion.li>
                             <motion.li
@@ -177,7 +162,7 @@ const Navbar = (props: NavbarProps) => {
                                 transition={{ duration: 0.1, delay: 0.6 }}
                                 className='mt-1 cursor-pointer flex-row items-center rounded-xl px-2 py-1 font-bold tracking-wide'
                             >
-                                <select value={language} className='w-full' onChange={(e) => handleChangeLanguage(e.target.value)}>
+                                <select className='w-full' onChange={(e) => handleChangeLanguage(e.target.value)}>
                                     <option value='en'>English 🇺🇸</option>
                                     <option value='vn'>VietNam 🇻🇳</option>
                                 </select>
@@ -191,7 +176,7 @@ const Navbar = (props: NavbarProps) => {
                                 >
                                     <div className='relative z-[900] mx-auto inline-block cursor-pointer rounded-xl hover:bg-textPurpleHover'>
                                         <div className='min-w-auto flex w-auto flex-row items-center gap-1 px-2 py-2 tracking-wide'>
-                                            <div className='text-[1em] leading-snug'>{language === 'en' ? 'Login' : 'Đăng nhập'}</div>
+                                            <div className='text-[1em] leading-snug'>Login</div>
                                         </div>
                                     </div>
                                 </motion.li>
@@ -216,7 +201,7 @@ const Navbar = (props: NavbarProps) => {
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ duration: 0.1, delay: 0.9 }}
                                 >
-                                    {language === 'en' ? 'Get Started' : 'Bắt đầu'}
+                                    Get Started
                                 </motion.div>
                             </button>
                         </Link>

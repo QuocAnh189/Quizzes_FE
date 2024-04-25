@@ -8,7 +8,7 @@ function QuizCard({ quiz }: { quiz: QuizType }) {
     return (
         <motion.div whileHover={{ scale: 1.025 }} whileTap={{ scale: 0.95 }} className='z-10 flex h-20 w-full rounded-sm bg-gray-50 shadow-md md:min-h-[5rem]'>
             <div className='relative w-32 min-w-[7rem] xl:w-36'>
-                <Image src={quiz?.backgroundImage || DefaultBackground[0]} alt='Error' width={100} height={100} className='h-full w-full' />
+                <Image src={quiz?.coverImage || DefaultBackground[0]} alt='Error' width={100} height={100} className='h-full w-full' />
                 <div className='absolute bottom-1 left-1 rounded-md bg-gray-700 px-1'>
                     <span className='text-sm font-bold text-white'>{quiz?.numberOfQuestions} questions</span>
                 </div>

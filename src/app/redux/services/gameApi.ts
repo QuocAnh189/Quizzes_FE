@@ -1,12 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { API } from '../api';
 import GameType from 'src/app/types/gameType';
 import { RootState } from '../store';
 
 export const apiGame = createApi({
     reducerPath: 'apiGame',
     baseQuery: fetchBaseQuery({
-        baseUrl: API,
+        baseUrl: process.env.API_URL,
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).auth.authData?.accessToken;
 
@@ -22,14 +21,14 @@ export const apiGame = createApi({
     endpoints: (builder) => ({
         getGame: builder.query<GameType, { gameId: string }>({
             query: ({ gameId }) => ({
-                url: `api/game/${gameId}`,
+                url: `/games/${gameId}`,
                 method: 'GET'
             })
         }),
 
         createGame: builder.mutation<GameType, { newGame: Omit<GameType, '_id'> }>({
             query: ({ newGame }) => ({
-                url: `api/game`,
+                url: `/games`,
                 method: 'POST',
                 body: newGame
             })
@@ -37,14 +36,14 @@ export const apiGame = createApi({
 
         deleteGame: builder.mutation<void, { gameId: string }>({
             query: ({ gameId }) => ({
-                url: `api/game/${gameId}`,
+                url: `/games/${gameId}`,
                 method: 'DELETE'
             })
         }),
 
         addPlayer: builder.mutation<void, { gameId: string; playerId: string }>({
             query: ({ gameId, playerId }) => ({
-                url: `api/game/${gameId}/addPlayer`,
+                url: `/games/${gameId}/add-player`,
                 method: 'PATCH',
                 body: { playerId }
             })
@@ -52,7 +51,7 @@ export const apiGame = createApi({
 
         removePlayer: builder.mutation<void, { gameId: string; playerId: string }>({
             query: ({ gameId, playerId }) => ({
-                url: `api/game/${gameId}/removePlayer`,
+                url: `/games/${gameId}/remove-player`,
                 method: 'PATCH',
                 body: { playerId }
             })
@@ -60,7 +59,7 @@ export const apiGame = createApi({
 
         addGamePlayerResult: builder.mutation<void, { gameId: string; playerResultId: string }>({
             query: ({ gameId, playerResultId }) => ({
-                url: `api/game/${gameId}/addPlayerResult`,
+                url: `/games/${gameId}/add-player-result`,
                 method: 'PATCH',
                 body: { playerResultId }
             })

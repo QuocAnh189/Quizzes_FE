@@ -17,7 +17,7 @@ import { loadingImg } from '../../../public/assets/images/auth';
 import ErrorNotify from './Error';
 
 //Redux
-import { useCheckUserNameExitsMutation } from 'src/app/redux/services/authApi';
+import { useCheckUserNameMutation } from 'src/app/redux/services/authApi';
 
 interface FormSignUpProps {
     setShowFormSignUp: (state: boolean) => void;
@@ -33,17 +33,7 @@ const FormUserName = (props: FormSignUpProps) => {
     const mounted = useRef<boolean>(true);
     const [click, setClick] = useState<boolean>(false);
 
-    const [language, setLanguage] = useState('');
-    useEffect(() => {
-        mounted.current = true;
-        const value = JSON.parse(localStorage.getItem('language')!);
-        setLanguage(value);
-        return () => {
-            mounted.current = false;
-        };
-    }, []);
-
-    const [checkUserName, { data, isError, isSuccess, isLoading }] = useCheckUserNameExitsMutation();
+    const [checkUserName, { data, isError, isSuccess, isLoading }] = useCheckUserNameMutation();
 
     useEffect(() => {
         if (
@@ -85,7 +75,7 @@ const FormUserName = (props: FormSignUpProps) => {
                     transition={{ duration: 0.4, delay: 0.3 }}
                     className='mb-[15px] text-[2rem] text-textWhite'
                 >
-                    {language === 'en' ? "What's your name?" : 'Tên của bạn là gì?'}
+                    What's your name?
                 </motion.h1>
                 <motion.div
                     initial={{ x: 100, opacity: 0 }}
@@ -103,7 +93,7 @@ const FormUserName = (props: FormSignUpProps) => {
                                 RequireShort(props.firstName) === 'weak' && 'border-textError focus:border-textError',
                                 RequireShort(props.firstName) === 'strong' && 'border-textGreen focus:border-textGreen'
                             )}
-                            placeholder={language === 'en' ? 'firstName' : 'Tên đầu'}
+                            placeholder='firstName'
                             onChange={props.handleChangeForm}
                         />
                     </div>
@@ -117,7 +107,7 @@ const FormUserName = (props: FormSignUpProps) => {
                                 RequireShort(props.lastName) === 'weak' && 'border-textError focus:border-textError',
                                 RequireShort(props.lastName) === 'strong' && 'border-textGreen focus:border-textGreen'
                             )}
-                            placeholder={language === 'en' ? 'lastName' : 'Tên cuối'}
+                            placeholder='lastName'
                             onChange={props.handleChangeForm}
                         />
                     </div>
@@ -137,12 +127,12 @@ const FormUserName = (props: FormSignUpProps) => {
                             RequireLong(props.userName) === 'weak' && 'border-textError focus:border-textError',
                             RequireLong(props.userName) === 'strong' && 'border-textGreen focus:border-textGreen'
                         )}
-                        placeholder={language === 'en' ? 'userName' : 'Tên của bạn'}
+                        placeholder='userName'
                         onChange={props.handleChangeForm}
                     />
                 </motion.div>
 
-                {isError && <ErrorNotify message={language === 'en' ? 'UserName already exists' : 'Tên đã tồn tại'} />}
+                {isError && <ErrorNotify message='UserName already exists' />}
 
                 <motion.div
                     initial={{ x: 100, opacity: 0 }}
@@ -157,7 +147,7 @@ const FormUserName = (props: FormSignUpProps) => {
                         )}
                         onClick={handleContinue}
                     >
-                        {isLoading ? <Image src={loadingImg} alt='' className='h-7 w-7 self-center' /> : language === 'en' ? `That's me` : 'Đó là tôi'}
+                        {isLoading ? <Image src={loadingImg} alt='' className='h-7 w-7 self-center' /> : "That's me"}
                     </button>
                 </motion.div>
 
@@ -171,7 +161,7 @@ const FormUserName = (props: FormSignUpProps) => {
                         props.setShowFormUserName(false);
                     }}
                 >
-                    {language === 'en' ? 'Back' : 'Trở về'}
+                    Back
                 </motion.button>
             </div>
         </div>

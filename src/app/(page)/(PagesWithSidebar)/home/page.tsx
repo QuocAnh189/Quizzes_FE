@@ -12,12 +12,11 @@ import UserInfoCard from 'src/components/home/UserInfoCard';
 //redux
 import { useAppDispatch, useAppSelector } from 'src/app/redux/hooks';
 import { createSocket } from 'src/app/redux/slices/socketSlice';
+import { useGetPublicQuizesQuery, useGetTeacherQuizzesQuery } from 'src/app/redux/services/quizApi';
 
 //socket
 import type { Socket } from 'socket.io-client';
 import io from 'socket.io-client';
-import { API } from 'src/app/redux/api';
-import { useGetPublicQuizesQuery, useGetTeacherQuizzesQuery } from 'src/app/redux/services/quizApi';
 
 function HomePage() {
     const dispatch = useAppDispatch();
@@ -30,7 +29,7 @@ function HomePage() {
 
     useEffect(() => {
         if (user._id !== '' && !socket) {
-            const socket: Socket = io(API, {
+            const socket: Socket = io(process.env.API_URL!, {
                 transports: ['websocket']
             });
             socket.connect();

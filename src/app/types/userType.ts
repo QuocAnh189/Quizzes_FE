@@ -1,28 +1,23 @@
 type UserType = {
     _id: string;
-    mail: string;
+    email: string;
     userName: string;
     firstName: string;
     lastName: string;
     avatar: string;
     userType: string;
     point: number;
-    workspace: string;
-    bio: string;
     follows: UserType[];
     friends: UserType[];
-    emailToken: '';
     isVerified: boolean;
-    update: {
-        profile: string;
-        mail: string;
-        password: string;
-    };
+    emailToken: '';
+    workPlace: any;
+    bio: string;
 };
 
 export const InitUser = {
     _id: '',
-    mail: '',
+    email: '',
     userName: '',
     firstName: '',
     lastName: '',
@@ -31,15 +26,10 @@ export const InitUser = {
     point: 0,
     follows: [],
     friends: [],
-    workspace: '',
+    workPlace: '',
     bio: '',
     emailToken: '',
-    isVerified: true,
-    update: {
-        profile: '',
-        mail: '',
-        password: ''
-    }
+    isVerified: true
 } as UserType;
 
 export default UserType;

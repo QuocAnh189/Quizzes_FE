@@ -13,7 +13,7 @@ function QuizInfo({ quizData }: { quizData: QuizType }) {
                         <div className='relative flex h-30 w-30 items-center justify-center overflow-hidden'>
                             <div className='flex h-full w-full shrink-0 items-center justify-center rounded-sm bg-slate-100'>
                                 <div className=' relative flex h-full w-full cursor-zoom-in items-center'>
-                                    <Image src={quizData.backgroundImage || DefaultBackground[0]} alt='Quiz Image' fill objectFit='contain' />
+                                    <Image src={quizData.coverImage || DefaultBackground[0]} alt='Quiz Image' fill objectFit='contain' />
                                 </div>
                             </div>
                         </div>

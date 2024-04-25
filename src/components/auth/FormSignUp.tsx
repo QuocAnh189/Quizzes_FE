@@ -26,13 +26,13 @@ import { EmailFormat, RequirePassword } from 'src/app/validates';
 import ErrorNotify from './Error';
 
 //RTKQuery
-import { useCheckMailExistsMutation } from 'src/app/redux/services/authApi';
+import { useCheckEmailMutation } from 'src/app/redux/services/authApi';
 
 interface FormSignUpProps {
     setShowFormSignUp: (state: boolean) => void;
     setShowFormUserName: (state: boolean) => void;
     handleChangeForm: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    mail: string;
+    email: string;
     password: string;
 }
 
@@ -40,33 +40,23 @@ const FormSignUp = (props: FormSignUpProps) => {
     const mounted = useRef<boolean>(true);
     const router = useRouter();
 
-    const [language, setLanguage] = useState('');
-    useEffect(() => {
-        mounted.current = true;
-        const value = JSON.parse(localStorage.getItem('language')!);
-        setLanguage(value);
-        return () => {
-            mounted.current = false;
-        };
-    }, []);
-
     const [click, setClick] = useState<boolean>(false);
     const [check, setCheck] = useState<boolean>(false);
     const [showPassWord, setShowPassWord] = useState<boolean>(false);
 
-    const [checkMail, { data, isError, isLoading, isSuccess }] = useCheckMailExistsMutation();
+    const [checkMail, { isError, isLoading, isSuccess }] = useCheckEmailMutation();
 
     useEffect(() => {
-        if (!props.mail || !props.password || !check || RequirePassword(props.password) !== 'strong' || !EmailFormat(props.mail)) {
+        if (!props.email || !props.password || !check || RequirePassword(props.password) !== 'strong' || !EmailFormat(props.email)) {
             setClick(false);
         } else {
             setClick(true);
         }
-    }, [props.mail, props.password, check]);
+    }, [props.email, props.password, check]);
 
     const handleContinue = () => {
         if (click) {
-            checkMail({ mail: props.mail });
+            checkMail({ email: props.email });
         }
     };
 
@@ -99,15 +89,15 @@ const FormSignUp = (props: FormSignUpProps) => {
                             data-te-input-wrapper-init
                         >
                             <input
-                                value={props.mail}
+                                value={props.email}
                                 type='email'
-                                name='mail'
+                                name='email'
                                 className={clsx(
                                     `block min-h-[auto] w-full rounded-2xl border-[2px] px-3 py-[0.8rem] font-semibold placeholder-gray-400 outline-none placeholder:italic focus:border-[2px] focus:border-bgBlue`,
-                                    EmailFormat(props.mail) === false && 'border-textError focus:border-textError',
-                                    EmailFormat(props.mail) === true && 'border-textGreen focus:border-textGreen'
+                                    EmailFormat(props.email) === false && 'border-textError focus:border-textError',
+                                    EmailFormat(props.email) === true && 'border-textGreen focus:border-textGreen'
                                 )}
-                                placeholder={language === 'en' ? 'Enter email' : 'Nhập email'}
+                                placeholder='Enter email'
                                 onChange={props.handleChangeForm}
                             />
                         </motion.div>
@@ -129,7 +119,7 @@ const FormSignUp = (props: FormSignUpProps) => {
                                     RequirePassword(props.password) === 'weak' && 'border-textError focus:border-textError',
                                     RequirePassword(props.password) === 'medium' && 'border-textYellow focus:border-textYellow'
                                 )}
-                                placeholder={language === 'en' ? 'Set password' : 'Cài đặt mật khẩu'}
+                                placeholder='Set password'
                                 onChange={props.handleChangeForm}
                             />
                             <button
@@ -155,10 +145,8 @@ const FormSignUp = (props: FormSignUpProps) => {
                                 checked={check}
                             />
                             <span className='ml-[10px] mt-0 inline-block h-[30px] text-sm font-semibold leading-[30px]'>
-                                {language === 'en' ? 'Accept' : 'Chấp nhận'}
-                                <a className='text-textBlueLight outline-none'>{language === 'en' ? ' Terms of use ' : ' Sử dụng '}</a>
-                                {language === 'en' ? 'and' : 'và'}
-                                <a className='text-textBlueLight outline-none'>{language === 'en' ? ' Privacy policy' : ' Bảo mật'}</a>
+                                Accept <a className='text-textBlueLight outline-none'>Terms of use</a> and{' '}
+                                <a className='text-textBlueLight outline-none'>Privacy policy</a>
                             </span>
                         </motion.div>
 
@@ -174,7 +162,7 @@ const FormSignUp = (props: FormSignUpProps) => {
                             )}
                             onClick={handleContinue}
                         >
-                            {isLoading ? <Image src={loadingImg} alt='' className='h-7 w-7 self-center' /> : language === 'en' ? 'Sign Up' : 'Đăng ký'}
+                            {isLoading ? <Image src={loadingImg} alt='' className='h-7 w-7 self-center' /> : 'Sign Up'}
                         </motion.button>
                     </div>
 
@@ -188,22 +176,21 @@ const FormSignUp = (props: FormSignUpProps) => {
                             onClick={() => router.push('/signIn')}
                             className='block w-full py-4 text-sm font-semibold hover:rounded-[18px] hover:bg-bgGrayLight hover:text-[15px]'
                         >
-                            {language === 'en' ? 'Already have an account? Sign In' : 'Bạn đã có tài khoảng? Đăng nhập'}
+                            Already have an account? Sign In
                         </button>
 
                         <button
                             className='block w-full py-4 text-sm font-bold hover:rounded-[18px] hover:bg-bgGrayLight hover:text-[15px]'
                             onClick={() => router.back()}
                         >
-                            {language === 'en' ? 'Back' : 'Trở về'}
+                            Back
                         </button>
                     </motion.div>
                 </div>
             </div>
             <motion.div className='absolute bottom-0 left-[50%] min-h-[70px] w-full translate-x-[-50%] text-center'>
                 <p className='font-semibold text-textGray'>
-                    ©2023 quizzes GmbH -
-                    <span className='font-bold text-textBlack'> {language === 'en' ? 'Imprint & Privacy Policy' : 'Điều khoảng & và chính sách bảo mật'}</span>
+                    ©2023 quizzes GmbH -<span className='font-bold text-textBlack'> Imprint & Privacy Policy</span>
                 </p>
             </motion.div>
         </div>

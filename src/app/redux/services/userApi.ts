@@ -1,14 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { API } from '../api';
 import UserType from 'src/app/types/userType';
 import { RootState } from '../store';
 import { EditUserType } from 'src/app/variable';
-import AuthType from 'src/app/types/authType';
 
 export const apiUser = createApi({
     reducerPath: 'apiUser',
     baseQuery: fetchBaseQuery({
-        baseUrl: API,
+        baseUrl: process.env.API_URL,
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).auth.authData?.accessToken;
 
@@ -23,14 +21,14 @@ export const apiUser = createApi({
     endpoints: (builder) => ({
         getUser: builder.query<UserType, { userId: string }>({
             query: ({ userId }) => ({
-                url: `api/user/${userId}`,
+                url: `/users/${userId}`,
                 method: 'GET'
             })
         }),
 
         getUsers: builder.query<UserType[], void>({
             query: () => ({
-                url: 'api/user',
+                url: '/users',
                 method: 'GET'
             }),
             transformResponse(response: UserType[]) {
@@ -40,7 +38,7 @@ export const apiUser = createApi({
 
         updateUser: builder.mutation<UserType, { userId: string; formData: EditUserType }>({
             query: ({ userId, formData }) => ({
-                url: `api/user/${userId}`,
+                url: `/users/${userId}`,
                 method: 'PATCH',
                 headers: {
                     Accept: '*application/json*',
@@ -52,21 +50,21 @@ export const apiUser = createApi({
 
         addFriend: builder.mutation<UserType, { myId: string; friendId: string }>({
             query: ({ myId, friendId }) => ({
-                url: `api/user/${myId}/addFriend/${friendId}`,
+                url: `/users/${myId}/addFriend/${friendId}`,
                 method: 'PUT'
             })
         }),
 
         followUser: builder.mutation<UserType, { myId: string; friendId: string }>({
             query: ({ myId, friendId }) => ({
-                url: `api/user/${myId}/follow/${friendId}`,
+                url: `/users/${myId}/follow/${friendId}`,
                 method: 'PUT'
             })
         }),
 
         unFollowUser: builder.mutation<UserType, { myId: string; friendId: string }>({
             query: ({ myId, friendId }) => ({
-                url: `api/user/${myId}/unFollow/${friendId}`,
+                url: `/users/${myId}/unFollow/${friendId}`,
                 method: 'PUT'
             })
         }),

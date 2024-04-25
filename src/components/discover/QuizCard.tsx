@@ -19,7 +19,7 @@ const QuizCard = ({ QuizData }: { QuizData: QuizType }) => {
                 <div>
                     <div className='relative h-28 w-44 object-cover md:h-40 md:w-60'>
                         <Image
-                            src={QuizData.backgroundImage ? QuizData.backgroundImage : 'https://cf.quizizz.com/game/img/share/quizizz_share1.png'}
+                            src={QuizData.coverImage ? QuizData.coverImage : 'https://cf.quizizz.com/game/img/share/quizizz_share1.png'}
                             alt='Image'
                             className='h-full w-full'
                             fill

@@ -102,7 +102,7 @@ const QuizCard = (props: QuizCardProps) => {
                 <div className='relative flex min-w-[320px] items-center justify-between max-md:hidden'>
                     <Image
                         className='h-full rounded-l-lg object-cover'
-                        src={props.quiz.backgroundImage || 'https://cf.quizizz.com/game/img/share/quizizz_share1.png'}
+                        src={props.quiz.coverImage || 'https://cf.quizizz.com/game/img/share/quizizz_share1.png'}
                         alt='quiz background'
                         fill
                         sizes={'100%'}

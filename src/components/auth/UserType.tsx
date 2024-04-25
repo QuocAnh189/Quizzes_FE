@@ -1,5 +1,4 @@
 'use client';
-import { useRef, useEffect, useState } from 'react';
 
 //images
 import Image from 'next/image';
@@ -20,23 +19,12 @@ interface FormTypeProps {
 }
 
 const FormUserType = (props: FormTypeProps) => {
-    const mounted = useRef<boolean>(true);
-    const [language, setLanguage] = useState('');
     const handleContinue = () => {
         if (props.userType) {
             props.setShowFormUserType(false);
             props.setShowFormWorkSpace(true);
         }
     };
-
-    useEffect(() => {
-        mounted.current = true;
-        const value = JSON.parse(localStorage.getItem('language')!);
-        setLanguage(value);
-        return () => {
-            mounted.current = false;
-        };
-    }, []);
 
     return (
         <div className='absolute left-[50%] top-[50%] min-h-full w-[760px] translate-x-[-50%] translate-y-[-50%] overflow-hidden rounded-[50px] bg-bgBlackLight px-[210px] py-[75px] font-sans mdl:min-h-[600px]'>
@@ -50,7 +38,7 @@ const FormUserType = (props: FormTypeProps) => {
                     transition={{ duration: 0.4, delay: 0.3 }}
                     className='mb-[15px] break-words px-2 text-center text-[2rem] font-black leading-[1.3em] text-textWhite mdl:w-[560px]'
                 >
-                    {language === 'en' ? `What kind of customer are you using quizzes for?` : 'Vai trò của bạn là gì khi sử dụng ứng dụng Quizzes?'}
+                    What kind of customer are you using quizzes for?
                 </motion.h1>
 
                 <motion.div
@@ -69,10 +57,10 @@ const FormUserType = (props: FormTypeProps) => {
                 >
                     <div className='flex flex-row items-center justify-center gap-x-2'>
                         <Image alt='' src={studentsImg} className='h-[30px] w-[30px]' />
-                        <span className='min-w-[100px] font-semibold text-textWhite'>{language === 'en' ? 'Student' : 'Học sinh'}</span>
+                        <span className='min-w-[100px] font-semibold text-textWhite'>Student</span>
                     </div>
                     <div>
-                        <p className='text-textGray'>{language === 'en' ? 'Join game to play with friends.' : 'Tham gia trò chơi cùng với bạn bè'}</p>
+                        <p className='text-textGray'>Join game to play with friends.</p>
                     </div>
                 </motion.div>
 
@@ -92,14 +80,10 @@ const FormUserType = (props: FormTypeProps) => {
                 >
                     <div className='flex flex-row items-center justify-center gap-x-2'>
                         <Image alt='' src={teacherImg} className='h-[30px] w-[30px]' />
-                        <span className='min-w-[100px] font-semibold text-textWhite'>{language === 'en' ? 'Teacher' : 'Giáo viên'}</span>
+                        <span className='min-w-[100px] font-semibold text-textWhite'>Teacher</span>
                     </div>
                     <div className='max-w-[220px] mdl:max-w-full'>
-                        <p className='text-textGray'>
-                            {language === 'en'
-                                ? 'Create, quizzes store , organize for students joining game.'
-                                : 'Tạo , lưu trữ câu đố , tổ chức phòng chơi cho các học sinh tham gia'}
-                        </p>
+                        <p className='text-textGray'>Create, quizzes store , organize for students joining game.</p>
                     </div>
                 </motion.div>
 
@@ -118,7 +102,7 @@ const FormUserType = (props: FormTypeProps) => {
                         )}
                         onClick={handleContinue}
                     >
-                        {language === 'en' ? 'Continue' : 'Tiếp theo'}
+                        Continue
                     </button>
                 </motion.div>
 
@@ -132,7 +116,7 @@ const FormUserType = (props: FormTypeProps) => {
                         props.setShowFormUserName(true);
                     }}
                 >
-                    {language === 'en' ? 'Back' : 'Trở về'}
+                    Back
                 </motion.button>
             </div>
         </div>

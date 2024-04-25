@@ -1,22 +1,16 @@
 'use client';
-import Link from 'next/link';
 
-//images
+//next
+import Link from 'next/link';
 import Image from 'next/image';
+
+//assets
 import { directImg, logoImg, threePeopleImg } from '../../../../public/assets/images/landing';
 
 //animation
 import { motion } from 'framer-motion';
 
-import { useLocalStorage } from 'src/hooks/useLocalStorage';
-import { useEffect, useState } from 'react';
-
-interface IntroProps {
-    language: string;
-}
-const Intro = (props: IntroProps) => {
-    const { language } = props;
-
+const Intro = () => {
     return (
         <motion.section id='intro' className='relative flex min-h-screen items-center justify-center overflow-hidden'>
             <div className='flex max-w-[1440px] flex-1 items-center justify-center rounded-[4px] bg-transparent'>
@@ -37,7 +31,7 @@ const Intro = (props: IntroProps) => {
                                 transition={{ duration: 0.5, delay: 0.7 }}
                                 className='mt-[-0.1em] text-[2em] font-bold leading-[1.1] tracking-[-0.035em] mdl:text-[4em] xl:text-[6.25em]'
                             >
-                                {language === 'en' ? 'Challenge your' : 'Thử thách cùng'}
+                                Challenge your
                             </motion.div>
                             <motion.div initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5, delay: 0.8 }}>
                                 <Image src={threePeopleImg} alt='' className='ml-6 h-auto w-[4em] flex-none mdl:w-[10em] xl:w-[13.75em]' />
@@ -49,7 +43,7 @@ const Intro = (props: IntroProps) => {
                             transition={{ duration: 0.5, delay: 0.9 }}
                             className='mt-[-0.1em] flex items-center justify-center gap-x-10 self-center text-[2em] font-bold mdl:text-[4em] xl:text-[6.25em]'
                         >
-                            {language === 'en' ? 'friends Power Quizzes' : 'bạn bè với Quizzes'}
+                            friends Power Quizzes
                         </motion.div>
                         <motion.div
                             initial={{ y: 10, opacity: 0 }}
@@ -58,13 +52,11 @@ const Intro = (props: IntroProps) => {
                             className='flex items-center justify-center'
                         >
                             <div className='mt-[-0.1em] block text-center text-[2em] font-bold leading-[1.1] tracking-[-0.035em] text-textPurple mdl:text-[4em] xl:text-[6.25em]'>
-                                {language === 'en' ? '- easily and efficiently' : ' - dễ dàng và tiện lợi'}
+                                - easily and efficiently
                             </div>
                             <div className='border-l-solid -mb-6 ml-[1.13em] block border-l-[1px] border-l-textGray py-[0.63em] pl-[1.13em] mdl:max-w-[12em]'>
                                 <div className='my-0 block text-[1em] font-semibold leading-[1.4]'>
-                                    {language === 'en'
-                                        ? 'study with your friends and Learn through games with Quizzes.'
-                                        : 'học hỏi cùng bạn bè thông qua các game giải câu đố.'}
+                                    study with your friends and Learn through games with Quizzes.
                                 </div>
                             </div>
                         </motion.div>
@@ -85,7 +77,7 @@ const Intro = (props: IntroProps) => {
                                         <Image src={logoImg} className='h-3/5 w-3/5 max-w-full hover:h-4/5 hover:w-4/5' alt='' />
                                     </div>
                                 </div>
-                                <div className='my-0 block text-[1.13em] leading-[1.45]'>{language === 'en' ? 'Try now' : 'Thử ngay'}</div>
+                                <div className='my-0 block text-[1.13em] leading-[1.45]'>Try now</div>
                             </Link>
                         </motion.div>
                     </div>

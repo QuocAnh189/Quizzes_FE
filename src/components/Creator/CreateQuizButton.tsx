@@ -1,19 +1,30 @@
-import { FormControlLabel, InputBase, Radio, RadioGroup } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import Modal from 'react-modal';
-import { BsPlusLg } from 'react-icons/bs';
-
-import { useAppDispatch, useAppSelector } from 'src/app/redux/hooks';
-import { setQuizFromParams } from 'src/app/redux/slices/quizCreatorSlice';
+//hooks
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { QuizType, initialQuestion, initialQuiz } from 'src/app/types/creator';
-import { cn } from 'src/utils/tailwind.util';
-import { RootState } from 'src/app/redux/store';
-import { useCreateDraftQuizMutation } from 'src/app/redux/services/quizApi';
+//mui
+import { FormControlLabel, InputBase, Radio, RadioGroup } from '@mui/material';
+
+//component
+import Modal from 'react-modal';
 import { toast } from 'react-toastify';
+
+//redux
+import { RootState } from 'src/app/redux/store';
+import { useAppDispatch, useAppSelector } from 'src/app/redux/hooks';
+import { setQuizFromParams } from 'src/app/redux/slices/quizCreatorSlice';
+import { QuizType, initialQuestion, initialQuiz } from 'src/app/types/creator';
+import { useCreateQuizMutation } from 'src/app/redux/services/quizApi';
+
+//tailwind
+import { cn } from 'src/utils/tailwind.util';
+
+//constant
 import { LibraryMessages } from 'src/constants/messages';
 import { ToastOptions } from 'src/constants/toast';
+
+//icon
+import { BsPlusLg } from 'react-icons/bs';
 
 const customStylesModal: any = {
     overlay: {
@@ -48,15 +59,15 @@ type ModalDataType = {
     name: string;
     description: string;
     isPublic: boolean;
+    creatorId: string;
 };
 
 export default function CreateQuizButton({ buttonElement }: IProps) {
     const dispatch = useAppDispatch();
 
-    const { quiz } = useAppSelector((state: RootState) => state.quizCreator);
     const { user } = useAppSelector((state: RootState) => state.auth.authData);
 
-    const [createDraftQuiz, { data, isSuccess }] = useCreateDraftQuizMutation();
+    const [createQuiz, { isLoading }] = useCreateQuizMutation();
 
     const router = useRouter();
 
@@ -65,43 +76,11 @@ export default function CreateQuizButton({ buttonElement }: IProps) {
     const initialModalData: ModalDataType = {
         name: '',
         description: '',
-        isPublic: true
+        isPublic: true,
+        creatorId: user._id
     };
 
     const [modalData, setModalData] = useState<ModalDataType>(initialModalData);
-
-    useEffect(() => {
-        if (isSuccess) {
-            dispatch(
-                setQuizFromParams({
-                    ...initialQuiz,
-                    _id: data?._id as string,
-                    name: modalData.name,
-                    description: modalData.description,
-                    isPublic: modalData.isPublic,
-                    creator: {
-                        _id: user._id,
-                        userName: user.userName,
-                        avatar: user.avatar,
-                        userType: user.userType,
-                        firstName: user.firstName,
-                        lastName: user.lastName
-                    },
-                    questionList: [
-                        {
-                            ...initialQuestion,
-                            creator: user._id
-                        }
-                    ]
-                })
-            );
-
-            router.push(`/creator/${data?._id}`);
-
-            toast.success(LibraryMessages.SUCCESS.ADD_QUIZ, ToastOptions);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSuccess]);
 
     const handleCloseModal = () => {
         setIsOpenModal(false);
@@ -128,25 +107,23 @@ export default function CreateQuizButton({ buttonElement }: IProps) {
         });
     };
 
-    const handleCreateQuiz = () => {
-        const quizData: QuizType = {
-            ...initialQuiz,
-            name: modalData.name,
-            questionList: [],
-            numberOfQuestions: 0,
-            description: modalData.description,
-            isPublic: modalData.isPublic,
-            creator: {
-                _id: user._id,
-                userName: user.userName,
-                avatar: user.avatar,
-                userType: user.userType,
-                firstName: user.firstName,
-                lastName: user.lastName
+    const handleCreateQuiz = async () => {
+        try {
+            const result = await createQuiz(modalData).unwrap();
+            if (result) {
+                router.push(`/creator/${result?._id}`);
+                toast.success(LibraryMessages.SUCCESS.ADD_QUIZ, ToastOptions);
             }
-        };
-
-        createDraftQuiz({ quizData });
+        } catch (error: any) {
+            const { message }: any = error?.data;
+            switch (message) {
+                case 'Quiz already exists':
+                    toast.error(message, ToastOptions);
+                    break;
+                default:
+                    break;
+            }
+        }
     };
 
     Modal.setAppElement('body');
@@ -170,7 +147,7 @@ export default function CreateQuizButton({ buttonElement }: IProps) {
             )}
 
             <Modal isOpen={isOpenModal} style={customStylesModal} onRequestClose={handleCloseModal}>
-                <div className='rounded bg-white p-10 '>
+                <div className='w-[600px] rounded bg-white p-10'>
                     <h1 className='text-lg font-bold'>Create Quiz</h1>
 
                     {/* Title */}
@@ -218,6 +195,7 @@ export default function CreateQuizButton({ buttonElement }: IProps) {
                             <span className='font-semibold text-black'>Cancel</span>
                         </button>
                         <button
+                            disabled={isLoading}
                             onClick={handleCreateQuiz}
                             className='w-32 rounded bg-[#26890c] px-4 pb-3 pt-2 shadow-[inset_0_-5px_rgba(0,0,0,0.3)] duration-100 hover:mt-[2px] hover:pb-[10px] hover:shadow-[inset_0_-4px_rgba(0,0,0,0.3)] active:mt-1 active:pb-2 active:shadow-[inset_0_-2px_rgba(0,0,0,0.3)]'
                         >

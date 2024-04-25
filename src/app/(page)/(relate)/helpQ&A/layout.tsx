@@ -7,6 +7,8 @@ import { Box } from '@chakra-ui/react';
 import Sidebar from 'src/components/chatAI/sidebar/Sidebar';
 import Footer from 'src/components/chatAI/FooterAI';
 import Navbar from 'src/components/chatAI/Navbar';
+import { Suspense } from 'react';
+import Loading from 'src/app/loading';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -30,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <Navbar />
                 </Box>
                 <Box width='full' mx='auto' p={{ base: '20px', md: '30px' }} pe='20px' minH='100vh'>
-                    {children}
+                    <Suspense fallback={<Loading />}>{children}</Suspense>
                 </Box>
                 <Box className='w-full'>
                     <Footer />

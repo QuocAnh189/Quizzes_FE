@@ -22,7 +22,7 @@ function QuizDetail() {
     const [isOpenPreviewModal, setIsOpenPreviewModal] = useState<boolean>(false);
     const [currentQuestionModal, setCurrentQuestionModal] = useState<QuestionType | undefined>();
     const [currentIndexQuestionModal, setCurrentIndexQuestionModal] = useState<number>(0);
-    const { data, isSuccess, isLoading } = useGetQuizByIdQuery({ quizId: id });
+    const { data, isSuccess, isLoading } = useGetQuizByIdQuery(id);
 
     useEffect(() => {
         document.title = `Quizzes | ${data?.name || 'Quiz detail'}`;

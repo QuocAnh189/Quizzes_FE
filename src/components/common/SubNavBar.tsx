@@ -18,7 +18,7 @@ const DynamicThemeSwitcher = dynamic(() => import('src/components/ThemeSwitcher'
 
 //redux
 import { useAppDispatch, useAppSelector } from 'src/app/redux/hooks';
-import { useUserLogOutMutation } from 'src/app/redux/services/authApi';
+import { useSignOutMutation } from 'src/app/redux/services/authApi';
 import { deleteSocket } from 'src/app/redux/slices/socketSlice';
 
 //
@@ -63,7 +63,6 @@ interface IProps {
 function SubNavBar({ toggleSidebar }: IProps) {
     const dispatch = useAppDispatch();
     const router = useRouter();
-    const { data: session } = useSession();
     const user = useAppSelector((state) => state.auth.authData?.user);
     const socket = useAppSelector((state) => state.socket.socket);
 
@@ -84,29 +83,16 @@ function SubNavBar({ toggleSidebar }: IProps) {
         };
     }, [scope]);
 
-    const [Logout, { isSuccess }] = useUserLogOutMutation();
-    const handleButton = async () => {
-        await Logout({ userId: user._id })
-            .unwrap()
-            .then((res) => {
-                // redirect('/');
-            })
-            .finally(() => {
-                socket?.disconnect();
-                dispatch(logOut());
-                dispatch(deleteSocket());
-            });
-    };
+    const [Logout, { isSuccess }] = useSignOutMutation();
 
-    useEffect(() => {
-        if (isSuccess) {
-            if (session) {
-                signOut({ callbackUrl: '/' });
-            } else {
-                redirect('/');
-            }
+    const handleButton = async () => {
+        const result = await Logout(user._id).unwrap();
+        if (result) {
+            socket?.disconnect();
+            dispatch(logOut());
+            dispatch(deleteSocket());
         }
-    }, [isSuccess, session]);
+    };
 
     return (
         <nav className=' fixed top-0 z-[97] w-full border-b border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800'>

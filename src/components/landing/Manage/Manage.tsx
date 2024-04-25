@@ -1,16 +1,13 @@
+//next
 import Image from 'next/image';
+
+//assets
 import { CarlaImg, LisaImg, PhillipImg } from '../../../../public/assets/images/landing';
 
 //animation
 import { motion } from 'framer-motion';
 
-import { useLocalStorage } from 'src/hooks/useLocalStorage';
-interface ManageProps {
-    language: string;
-}
-const Manage = (props: ManageProps) => {
-    const { language } = props;
-    // const [language] = useLocalStorage('language');
+const Manage = () => {
     return (
         <motion.section
             initial={{ y: -10, opacity: 0 }}
@@ -37,9 +34,7 @@ const Manage = (props: ManageProps) => {
                         <br />
                     </div>
                     <div className='rounded-[60px] bg-bgBlueLight px-[30px] pb-[16px] pt-0 text-textBlue'>
-                        <div className='my-0 font-sans text-[4em] font-extrabold leading-[1] tracking-tight'>
-                            {language === 'en' ? 'project management' : 'quản lý dự án'}
-                        </div>
+                        <div className='my-0 font-sans text-[4em] font-extrabold leading-[1] tracking-tight'>project management</div>
                     </div>
                 </div>
                 <div className='sticky top-[38vh] z-[5] flex h-[24.8em] w-full items-center'>

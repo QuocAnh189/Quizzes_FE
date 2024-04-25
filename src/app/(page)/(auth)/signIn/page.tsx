@@ -1,3 +1,4 @@
+//component
 import FormSignIn from 'src/components/auth/FormSignIn';
 
 const SignIn = () => {

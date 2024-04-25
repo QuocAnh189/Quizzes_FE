@@ -1,8 +1,12 @@
 'use client';
 
+//hook
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useAuth } from 'src/hooks/useAuth';
+
+//component
+import Loading from 'src/app/loading';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -14,6 +18,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     useEffect(() => {
         setIsMounted(true);
     }, []);
+
     useEffect(() => {
         if (user._id !== '' && user._id !== undefined && user._id !== null) {
             router.push('/home');
@@ -22,5 +27,10 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         }
     }, [isMounted, user, router]);
 
-    if (canRenderChildren) return <div className='flex min-h-screen'>{children}</div>;
+    if (canRenderChildren)
+        return (
+            <div className='flex min-h-screen'>
+                <Suspense fallback={<Loading />}>{children}</Suspense>
+            </div>
+        );
 }

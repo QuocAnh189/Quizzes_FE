@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
-import GradeType from 'src/app/types/gradeType';
 import QuestionType from 'src/app/types/questionType';
 
 export const apiQuestion = createApi({
@@ -20,21 +19,21 @@ export const apiQuestion = createApi({
     }),
     keepUnusedDataFor: 20,
     endpoints: (builder) => ({
-        getAllquestions: builder.query<GradeType[], void>({
+        getAllquestions: builder.query<QuestionType[], void>({
             query: () => ({
                 url: `/questions`,
                 method: 'GET'
             })
         }),
 
-        getQuestionById: builder.query<GradeType[], string>({
+        getQuestionById: builder.query<QuestionType[], string>({
             query: (id) => ({
                 url: `/questions/${id}`,
                 method: 'GET'
             })
         }),
 
-        getQuestionByQuizId: builder.query<GradeType, string>({
+        getQuestionByQuizId: builder.query<QuestionType, string>({
             query: (quizId) => ({
                 url: `/questions/quiz/${quizId}`,
                 method: 'GET'
@@ -49,7 +48,7 @@ export const apiQuestion = createApi({
             })
         }),
 
-        updateQuestion: builder.mutation<GradeType, { id: string; data: Partial<QuestionType> }>({
+        updateQuestion: builder.mutation<QuestionType, { id: string; data: Partial<QuestionType> }>({
             query: ({ id, data }) => ({
                 url: `/questions/${id}`,
                 method: 'PUT',

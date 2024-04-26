@@ -4,7 +4,8 @@ import { FaCheck } from 'react-icons/fa';
 
 import { useAppDispatch } from 'src/app/redux/hooks';
 import { setCorrectAnswer, setQuestionAnswer } from 'src/app/redux/slices/quizCreatorSlice';
-import { AnswerType } from 'src/app/types/creator';
+import { AnswerType } from 'src/app/types/questionType';
+// import { AnswerType } from 'src/app/types/creator';
 import { AnswerNameEnum } from 'src/constants/enum';
 import { cn } from 'src/utils/tailwind.util';
 

@@ -29,13 +29,16 @@ import {
     setQuestionType
 } from 'src/app/redux/slices/quizCreatorSlice';
 import { AnswerTimeEnum, OptionQuestionEnum, PointTypeEnum, QuestionTypeEnum } from 'src/constants/enum';
+import { UseFormRegister } from 'react-hook-form';
+import QuestionType from 'src/app/types/questionType';
 
 interface IProps {
     isOpen: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
+    register: UseFormRegister<QuestionType>;
 }
 
-export default function QuestionSettingSidebar({ isOpen, setOpen }: IProps) {
+export default function QuestionSettingSidebar({ isOpen, setOpen, register }: IProps) {
     const { quiz, activeQuestion } = useAppSelector((state) => state.quizCreator);
     const dispatch = useAppDispatch();
 
@@ -84,6 +87,7 @@ export default function QuestionSettingSidebar({ isOpen, setOpen }: IProps) {
                     </div>
 
                     <Select
+                        {...register('questionType')}
                         className='mt-4 w-full'
                         id='question-type'
                         value={questionType}
@@ -106,6 +110,7 @@ export default function QuestionSettingSidebar({ isOpen, setOpen }: IProps) {
                         <span className='font-semibold'>Time Limit</span>
                     </div>
                     <Select
+                        {...register('answerTime')}
                         className='mt-4 w-full'
                         id='time-limit'
                         value={answerTime}
@@ -130,6 +135,7 @@ export default function QuestionSettingSidebar({ isOpen, setOpen }: IProps) {
                         <span className='font-semibold'>Points</span>
                     </div>
                     <Select
+                        {...register('pointType')}
                         className='mt-4 w-full'
                         id='time-limit'
                         value={pointType}
@@ -150,6 +156,7 @@ export default function QuestionSettingSidebar({ isOpen, setOpen }: IProps) {
                         <span className='font-semibold'>Answer Options</span>
                     </div>
                     <Select
+                        {...register('optionQuestion')}
                         className='mt-4 w-full'
                         id='time-limit'
                         value={optionQuestion}
@@ -170,8 +177,8 @@ export default function QuestionSettingSidebar({ isOpen, setOpen }: IProps) {
                     <button onClick={handleDeleteQuestion} className='rounded-md px-4 py-1 hover:bg-slate-200'>
                         <span className='font-semibold'>delete</span>
                     </button>
-                    <button onClick={handleDuplicateQuestion} className='rounded-md px-4 py-1 outline outline-1 hover:bg-slate-200'>
-                        <span className='font-semibold'>duplicate</span>
+                    <button type='submit' className='rounded-md px-4 py-1 outline outline-1 hover:bg-slate-200'>
+                        <span className='font-semibold'>Save</span>
                     </button>
                 </div>
             </div>

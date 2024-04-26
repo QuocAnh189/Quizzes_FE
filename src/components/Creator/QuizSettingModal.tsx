@@ -51,7 +51,7 @@ const customStylesModal: any = {
 };
 
 interface IProps {
-    quiz: Partial<QuizType>;
+    quiz: any;
     isOpenModal: boolean;
     setIsOpenModal: Dispatch<SetStateAction<boolean>>;
 }
@@ -77,10 +77,6 @@ function QuizSettingModal(props: IProps) {
             tags: quiz.tags || ''
         }
     });
-
-    const handleCloseModal = () => {
-        setIsOpenModal(false);
-    };
 
     const onSubmit = async (data: any) => {
         try {
@@ -241,7 +237,7 @@ function QuizSettingModal(props: IProps) {
                                                 >
                                                     <span className='font-semibold text-white'>Change</span>
                                                 </button>
-                                                <button className='absolute right-4 top-4' onClick={handleDeleteImage}>
+                                                <button disabled={loadingDeleteImage} className='absolute right-4 top-4' onClick={handleDeleteImage}>
                                                     <BiTrash color='white' size={32} />
                                                 </button>
                                             </div>
@@ -288,11 +284,14 @@ function QuizSettingModal(props: IProps) {
                     {/* Buttons */}
                     <div className='mt-12 flex justify-center gap-4 max-lg:pb-4'>
                         <button
-                            onClick={handleCloseModal}
+                            onClick={() => {
+                                setIsOpenModal(false);
+                            }}
                             className='w-32 rounded bg-[#f2f2f2] px-4 pb-3 pt-2 shadow-[inset_0_-5px_rgba(0,0,0,0.3)] duration-100 hover:mt-[2px] hover:pb-[10px] hover:shadow-[inset_0_-4px_rgba(0,0,0,0.3)] active:mt-1 active:pb-2 active:shadow-[inset_0_-2px_rgba(0,0,0,0.3)]'
                         >
                             <span className='font-semibold text-black'>Cancel</span>
                         </button>
+
                         <button
                             disabled={loadingUpdateQuiz}
                             type='submit'

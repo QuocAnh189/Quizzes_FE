@@ -29,7 +29,7 @@ import { useUpdateQuizMutation } from 'src/app/redux/services/quizApi';
 import { saveQuizFromCreator } from 'src/app/redux/slices/quizSlice';
 
 interface IProps {
-    quiz: Partial<QuizType>;
+    quiz: any;
     setIsOpenSettingModal: Dispatch<SetStateAction<boolean>>;
     setIsOpenThemeModal: Dispatch<SetStateAction<boolean>>;
 }
@@ -51,14 +51,6 @@ function CreatorNavbar(props: IProps) {
     const handleOpenThemeModal = () => {
         setIsOpenThemeModal(true);
     };
-
-    // useEffect(() => {
-    //     if (isSuccess) {
-    //         toast.success(CreatorMessages.SUCCESS.SAVE_QUIZ, ToastOptions);
-    //         router.push(paths.library);
-    //         data && dispatch(saveQuizFromCreator(data));
-    //     }
-    // }, [isSuccess]);
 
     useEffect(() => {
         if (isError) {
@@ -103,44 +95,11 @@ function CreatorNavbar(props: IProps) {
         }
     };
 
-    const validateQuestionList = () => {
-        return quiz.questionList?.every((question) => {
-            // Check if question is empty
-            if (question.content === '') {
-                toast.error(CreatorMessages.ERROR.QUESTION_REQUIRED, ToastOptions);
-                return false;
-            }
-
-            let isValidAnswer;
-            if (question.questionType === QuestionTypeEnum.TRUE_FALSE) {
-                const { answerList } = question;
-                isValidAnswer = answerList[0].body !== '' && answerList[1].body !== '';
-            } else {
-                isValidAnswer = question.answerList.every((answer) => answer.body !== '');
-            }
-
-            // Check if answer is empty
-            if (!isValidAnswer) {
-                toast.error(CreatorMessages.ERROR.ANSWER_REQUIRED, ToastOptions);
-                return false;
-            }
-
-            // Check if correct answer is not selected
-            const isValidCorrectAnswer = question.answerList.some((answer) => answer.isCorrect === true);
-            if (!isValidCorrectAnswer) {
-                toast.error(CreatorMessages.ERROR.CORRECT_ANSWER_REQUIRED, ToastOptions);
-                return false;
-            }
-            return true;
-        });
-    };
-
     return (
         <>
             <div className='fixed left-0 top-0 z-[110] w-full bg-white px-2 py-2.5 shadow dark:bg-gray-900'>
                 <div className='flex w-full items-center justify-between'>
                     <div className='flex items-center'>
-                        {/* Logo */}
                         <Link href={paths.home} className='flex items-center'>
                             <div className='relative mr-1 h-9 w-9 '>
                                 <Image
@@ -154,7 +113,6 @@ function CreatorNavbar(props: IProps) {
                             <span className='self-center whitespace-nowrap text-xl font-semibold text-black dark:text-white md:max-lg:hidden'>Quizzes</span>
                         </Link>
 
-                        {/* Quiz Settings */}
                         <button
                             onClick={handleOpenSettingModal}
                             className='ml-4 flex items-center justify-between rounded-md md:p-1 md:outline md:outline-1 md:outline-gray-300 lg:min-w-[360px]'
@@ -175,25 +133,27 @@ function CreatorNavbar(props: IProps) {
                         >
                             <span className='inline font-bold'>Themes</span>
                         </button>
+
+                        <button
+                            onClick={handleOpenThemeModal}
+                            className='ml-4 flex items-center justify-center rounded bg-purple-700 px-2 py-2 text-sm font-medium text-white hover:bg-purple-800 focus:outline-none md:px-5'
+                        >
+                            <span className='inline font-bold'>Import</span>
+                        </button>
                     </div>
 
                     <div className='flex items-center'>
-                        {/* Exit Button */}
                         <button onClick={handleExitQuiz} className='flex items-center'>
-                            <div
-                                // href={paths.library}
-                                className='mr-2 flex items-center justify-center rounded-lg bg-gray-300 px-2.5 py-2.5 text-sm font-medium text-white hover:bg-gray-400 focus:outline-none md:px-5'
-                            >
+                            <div className='mr-2 flex items-center justify-center rounded-lg bg-gray-300 px-2.5 py-2.5 text-sm font-medium text-white hover:bg-gray-400 focus:outline-none md:px-5'>
                                 <RxExit className='h-5 w-5 text-black' />
                                 <span className='ml-1 font-bold text-black max-md:hidden'>Exit</span>
                             </div>
                         </button>
 
-                        {/* Create Button */}
                         <button onClick={handleQuizSubmit} className='flex items-center'>
                             <div className='flex items-center justify-center rounded-lg bg-purple-700 px-2.5 py-2.5 text-sm font-medium text-white hover:bg-purple-800 focus:outline-none dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 md:px-5 '>
                                 <BiSave className='h-5 w-5' />
-                                <span className='ml-1 font-bold max-md:hidden'>Save</span>
+                                <span className='ml-1 font-bold max-md:hidden'>Save All Question</span>
                             </div>
                         </button>
                     </div>

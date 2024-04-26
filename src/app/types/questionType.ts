@@ -1,21 +1,23 @@
-type answerType = {
-    name: string;
+import { AnswerNameEnum } from 'src/constants/enum';
+
+export type AnswerType = {
+    name: AnswerNameEnum;
     body: string;
     isCorrect: boolean;
 };
 
 const InitAnswer = {
-    name: '',
+    name: 'a',
     body: '',
     isCorrect: true
-} as answerType;
+} as AnswerType;
 
 type QuestionType = {
     _id?: string;
-    content: string;
-    creator?: string;
-    backgroundImage: string;
     tags?: string[];
+    content: string;
+    creatorId: string;
+    backgroundImage: string;
     questionIndex: number;
     questionType: string;
     optionQuestion: string;
@@ -23,21 +25,20 @@ type QuestionType = {
     isPublic: boolean;
     answerTime: number;
     maxCorrectAnswer: number;
-    answerList: answerType[];
+    answerList: AnswerType[];
     correctAnswerCount: number;
     answerCorrect: string[];
-    createdAt?: string;
-    updatedAt?: string;
+    createdAt?: Date | null;
+    updatedAt?: Date | null;
 };
 
 export const InitQuestion = {
-    _id: '',
-    field: '',
     content: '',
-    creator: '',
+    tags: [],
+    creatorId: '',
     backgroundImage: '',
-    questionIndex: 0,
     questionType: 'Quiz',
+    questionIndex: 0,
     optionQuestion: '',
     pointType: 'Standard',
     isPublic: true,
@@ -45,9 +46,7 @@ export const InitQuestion = {
     maxCorrectAnswer: 1,
     answerList: [InitAnswer],
     correctAnswerCount: 0,
-    answerCorrect: [],
-    createdAt: '',
-    updatedAt: ''
+    answerCorrect: []
 } as QuestionType;
 
 export default QuestionType;

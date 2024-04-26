@@ -17,7 +17,9 @@ import { QuestionTypeEnum } from 'src/constants/enum';
 
 interface IProps {
     isActive: boolean;
-    questionData: QuestionType;
+    questionData: any;
+    setQuestionIndexActive: (index: number) => void;
+    handleDeleteItemQuestion: (index: number) => void;
 }
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => <Tooltip {...props} arrow classes={{ popper: className }} />)(({ theme }) => ({
@@ -33,28 +35,14 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => <Tooltip 
     }
 }));
 
-function QuestionItem({ isActive = false, questionData }: IProps) {
-    const { quiz } = useAppSelector((state) => state.quizCreator);
+function QuestionItem(props: IProps) {
+    const { isActive = false, questionData, setQuestionIndexActive, handleDeleteItemQuestion } = props;
 
     const dispatch = useAppDispatch();
     const [isHovered, setIsHovered] = useState(false);
 
-    const handleDeleteQuestion = () => {
-        // check if there is only one question left
-        if (quiz.questionList.length === 1) {
-            toast.error(CreatorMessages.ERROR.DELETE_LAST_QUESTION, ToastOptions);
-            return;
-        }
-        dispatch(setDeleteQuestionIndex(questionData.questionIndex));
-        dispatch(setOpenDeleteQuestionDialog(true));
-    };
-
     const handleDuplicateQuestion = () => {
         dispatch(duplicateQuestion(questionData.questionIndex));
-    };
-
-    const handleActiveQuestion = () => {
-        dispatch(setActiveQuestion(questionData.questionIndex));
     };
 
     return (
@@ -68,7 +56,7 @@ function QuestionItem({ isActive = false, questionData }: IProps) {
             {/* Question Index */}
             <div className='mb-2 flex items-center justify-between pr-2 lg:h-7'>
                 <h3 className='w-full font-bold max-lg:hidden'>
-                    {questionData.questionIndex}&nbsp;{questionData.questionType}
+                    {questionData.questionIndex + 1}&nbsp;{questionData.questionType}
                 </h3>
                 {/* Mobile */}
                 <h3 className='mr-1 w-full font-bold lg:hidden'>{questionData.questionIndex}</h3>
@@ -80,7 +68,12 @@ function QuestionItem({ isActive = false, questionData }: IProps) {
                     })}
                 >
                     <LightTooltip title='Delete'>
-                        <button onClick={handleDeleteQuestion} className='rounded-full p-1 transition hover:bg-red-500 hover:text-white'>
+                        <button
+                            onClick={() => {
+                                handleDeleteItemQuestion(questionData.questionIndex);
+                            }}
+                            className='rounded-full p-1 transition hover:bg-red-500 hover:text-white'
+                        >
                             <FaRegTrashCan className='h-4 w-4' />
                         </button>
                     </LightTooltip>
@@ -94,7 +87,7 @@ function QuestionItem({ isActive = false, questionData }: IProps) {
 
             {/* Question Card */}
             <div
-                onClick={handleActiveQuestion}
+                onClick={() => setQuestionIndexActive(questionData.questionIndex)}
                 className='w-full cursor-pointer rounded-lg bg-[#f2f2f2] p-1 shadow-[0px_0px_0px_4px_transparent] outline-none transition-shadow hover:shadow-[0px_0px_0px_4px_rgb(201,201,201)] max-lg:w-30 lg:min-h-[8rem]'
             >
                 {/* title */}
@@ -126,7 +119,7 @@ function QuestionItem({ isActive = false, questionData }: IProps) {
                 {/* preview answer */}
                 <div className='mt-4 flex flex-wrap justify-center gap-2 max-lg:hidden'>
                     {questionData.questionType === QuestionTypeEnum.QUIZ ? (
-                        questionData.answerList.map((answer, index) => (
+                        questionData.answerList.map((answer: any, index: any) => (
                             <div key={index} className='mb-1 flex h-2 w-2/5 items-center justify-between border border-dashed border-gray-400 px-1'>
                                 <div></div>
                                 {answer.isCorrect && <div className='h-2 w-2 rounded-full bg-green-600'></div>}

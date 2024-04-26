@@ -1,45 +1,65 @@
+//hook
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+//next
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+
+//component
 import { InputBase } from '@mui/material';
 import { CldUploadWidget } from 'next-cloudinary';
+
+//icon
 import { HiDotsVertical, HiPlus } from 'react-icons/hi';
 
-// Utils
+// utils
 import { cn } from 'src/utils/tailwind.util';
 
-// Constants
+// constants
 import { QuestionTypeEnum } from 'src/constants/enum';
 
-// Components
+// components
 import QuestionSettingSidebar from './QuestionSettingSidebar';
 import AnswerItem from 'src/components/Creator/AnswerItem';
 
-// Redux
+// redux
 import { useAppDispatch, useAppSelector } from 'src/app/redux/hooks';
 import { setQuestionBackgroundImage, setQuestionContent } from 'src/app/redux/slices/quizCreatorSlice';
+import QuestionType from 'src/app/types/questionType';
 
-export default function ContentEditor() {
-    const { activeQuestion, theme } = useAppSelector((state) => state.quizCreator);
-    const dispatch = useAppDispatch();
+interface Props {
+    questionData: QuestionType;
+}
+
+export default function ContentEditor(props: Props) {
+    const { questionData } = props;
+
+    const { theme } = useAppSelector((state) => state.quizCreator);
+    const { user } = useAppSelector((state) => state.auth.authData);
 
     const [isOpenQuestionSettingSidebar, setIsOpenQuestionSettingSidebar] = useState(true);
-    // const [randomBackgroundState, setRandomBackgroundState] = useState<string>(`${creatorBackground[Math.floor(Math.random() * creatorBackground.length)]}`);
-    const { questionType, answerList, content, backgroundImage } = activeQuestion;
 
     const handleOpenSettingQuiz = () => {
         setIsOpenQuestionSettingSidebar(!isOpenQuestionSettingSidebar);
     };
 
-    // useEffect(() => {
-    //     const intervalId = setTimeout(() => {
-    //         setRandomBackgroundState(`${creatorBackground[Math.floor(Math.random() * creatorBackground.length)]}`);
-    //     }, 1000 * 1); // 1 minute
+    const { register, handleSubmit, setValue, reset, watch } = useForm<QuestionType>({
+        values: { ...questionData, creatorId: user._id }
+        // values: watch()
+    });
 
-    //     return () => clearTimeout(intervalId);
-    // }, [randomBackgroundState]);
+    console.log(watch());
+
+    // useEffect(() => {
+    //     console.log(watch());
+    //     reset(watch()), [reset];
+    // }, [reset]);
+
+    const onSubmit = async (data: QuestionType) => {
+        console.log(data);
+    };
 
     return (
-        <>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <div
                 className={cn(
                     'relative mt-15 transform pt-6 duration-300 scrollbar scrollbar-thumb-slate-300 scrollbar-thumb-rounded scrollbar-w-2 scrollbar-h-2 max-lg:mb-20 lg:ml-52 lg:h-[calc(100vh-60px)]',
@@ -53,11 +73,11 @@ export default function ContentEditor() {
                     transition: 'all 0.8s ease'
                 }}
             >
-                {/* Main content */}
                 <div className='px-4'>
-                    {/* Input */}
                     <div className='flex text-center'>
                         <InputBase
+                            {...register('content')}
+                            value={watch().content}
                             className='w-full rounded-md bg-white px-4 py-2 shadow-[inset_0_-4px_rgba(0,0,0,0.1)] lg:text-3xl'
                             placeholder='Start typing your question ...'
                             multiline
@@ -70,11 +90,7 @@ export default function ContentEditor() {
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') e.preventDefault();
                             }}
-                            value={content}
-                            onChange={(e) => dispatch(setQuestionContent(e.target.value))}
                         />
-
-                        {/* Setting Quiz mobile */}
                         <span onClick={handleOpenSettingQuiz} className='ml-4 flex items-center justify-center rounded-full bg-white p-2 lg:hidden'>
                             <HiDotsVertical className='text-xl text-black' />
                         </span>
@@ -84,30 +100,36 @@ export default function ContentEditor() {
                     <div className='mt-8 flex items-center justify-center rounded'>
                         <div
                             className={cn('relative flex h-60 w-full flex-col items-center justify-center rounded-lg  text-center max-lg:h-96 2xl:w-1/4', {
-                                'lg:h-80': questionType === QuestionTypeEnum.TRUE_FALSE
+                                'lg:h-80': questionData.questionType === QuestionTypeEnum.TRUE_FALSE
                             })}
                         >
                             <CldUploadWidget
-                                uploadPreset='quiz_upload'
+                                uploadPreset='quizzes_app'
                                 options={{
-                                    folder: 'quiz-app/questions',
+                                    folder: 'quizzes/questions',
                                     sources: ['local', 'url', 'google_drive'],
                                     multiple: false,
                                     styles: {}
                                 }}
                                 onSuccess={(results: any) => {
-                                    dispatch(setQuestionBackgroundImage(results.info.secure_url));
+                                    setValue('backgroundImage', results.info.secure_url);
                                 }}
                             >
                                 {({ open }) => {
                                     return (
                                         <div className='h-full w-96 cursor-pointer rounded bg-white shadow-md' onClick={() => open()}>
                                             <div className='relative h-full w-full'>
-                                                {backgroundImage && (
-                                                    <Image src={backgroundImage} fill className='object-contain' alt='Question Image' sizes='100%' />
+                                                {questionData.backgroundImage && (
+                                                    <Image
+                                                        src={questionData.backgroundImage}
+                                                        fill
+                                                        className='object-contain'
+                                                        alt='Question Image'
+                                                        sizes='100%'
+                                                    />
                                                 )}
                                             </div>
-                                            {!backgroundImage && (
+                                            {!questionData.backgroundImage && (
                                                 <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
                                                     <div className='inline-flex items-center justify-center rounded-lg bg-white p-2'>
                                                         <HiPlus className='text-3xl' />
@@ -124,19 +146,21 @@ export default function ContentEditor() {
 
                     {/* Answer List */}
                     <div className='mt-8 flex flex-col items-center justify-center gap-2 lg:grid lg:grid-cols-2'>
-                        {questionType === QuestionTypeEnum.TRUE_FALSE ? (
+                        {questionData.questionType === QuestionTypeEnum.TRUE_FALSE ? (
                             <>
-                                <AnswerItem isTrueFalse={true} answer={answerList[0]} />
-                                <AnswerItem isTrueFalse={true} answer={answerList[1]} />
+                                <AnswerItem isTrueFalse={true} answer={questionData.answerList[0]} />
+                                <AnswerItem isTrueFalse={true} answer={questionData.answerList[1]} />
                             </>
                         ) : (
-                            answerList.map((answer, index) => <AnswerItem isTrueFalse={false} key={index} answer={answer} />)
+                            questionData.answerList.map((answer, index) => <AnswerItem isTrueFalse={false} key={index} answer={answer} />)
                         )}
                     </div>
                 </div>
             </div>
 
-            <QuestionSettingSidebar isOpen={isOpenQuestionSettingSidebar} setOpen={setIsOpenQuestionSettingSidebar} />
-        </>
+            {isOpenQuestionSettingSidebar && (
+                <QuestionSettingSidebar isOpen={isOpenQuestionSettingSidebar} setOpen={setIsOpenQuestionSettingSidebar} register={register} />
+            )}
+        </form>
     );
 }
